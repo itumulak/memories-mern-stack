@@ -17,7 +17,6 @@ export const createPost = async (request, response) => {
 
     try {
         const status = await newPost.save()
-
         response.status(201).json(status)
     } catch (error) {
         response.status(404).json({message: error.message})
@@ -36,6 +35,21 @@ export const updatePost = async (request, response) => {
         const status = await PostMessage.findByIdAndUpdate(_id, {...post, _id}, {new: true})
         response.status(201).json(status)
     } catch (error) {
-        respond.status(404).json({message: error.message})
+        response.status(404).json({message: error.message})
+    }
+}
+
+export const deletePost = async (request, response) => {
+    const { id: _id } = request.params
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(_id)) {
+            return response.status(404).send('No post with that id')
+        }
+
+        const status = await PostMessage.findByIdAndDelete(_id)
+        response.status(200).json(status)
+    } catch (error) {
+        response.status(500).json({message: error.message})
     }
 }

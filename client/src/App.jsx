@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Container, AppBar, Typography, Grow, Grid } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts } from "./api";
+import { useDispatch } from "react-redux";
+import { fetchPostsApi } from "./api";
 import "./index.css";
 import memoriesImg from "./assets/images/memories.png"
 import Posts from "./components/Posts/Posts";
@@ -11,7 +11,7 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchPosts())
+        dispatch(fetchPostsApi())
     }, [dispatch])
 
     return (

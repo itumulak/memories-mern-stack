@@ -1,17 +1,17 @@
-import { fetchPosts } from '../../api';
+import { fetchPostsApi } from '../../api';
 
 export default (builder) => {
     builder
-        .addCase(fetchPosts.pending, (state, action) => {
+        .addCase(fetchPostsApi.pending, (state, action) => {
             state.status = 'pending'
         })
-        .addCase(fetchPosts.fulfilled, (state, action) => {
+        .addCase(fetchPostsApi.fulfilled, (state, action) => {
             state.status = 'succeeded'
             const loadedPosts = action.payload;
 
             state.items = loadedPosts
         })
-        .addCase(fetchPosts.rejected, (state, action) => {
+        .addCase(fetchPostsApi.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
         });

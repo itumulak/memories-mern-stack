@@ -3,7 +3,7 @@ import axios from "axios";
 
 const url = 'http://localhost:5000/posts'
 
-export const fetchPosts = createAsyncThunk('posts/fetch', async () => {
+export const fetchPostsApi = createAsyncThunk('posts/fetch', async () => {
     try {
         const response  = await axios.get(url)
         return [...response.data]
@@ -12,7 +12,7 @@ export const fetchPosts = createAsyncThunk('posts/fetch', async () => {
     }
 })
 
-export const createPost = createAsyncThunk('post/add', async (newPost, thunkAPI) => {
+export const createPostApi = createAsyncThunk('post/add', async (newPost, thunkAPI) => {
     try {        
         const response = await axios.post(url, newPost)
         response.headers.toJSON()
@@ -23,7 +23,7 @@ export const createPost = createAsyncThunk('post/add', async (newPost, thunkAPI)
     }
 })
 
-export const updatePost = createAsyncThunk('post/update', async (updatedPost) => {
+export const updatePostApi = createAsyncThunk('post/update', async (updatedPost) => {
     try {
         const { id } = updatedPost;        
         const response =  await axios.patch(`${url}/${id}`, updatedPost)
@@ -32,5 +32,15 @@ export const updatePost = createAsyncThunk('post/update', async (updatedPost) =>
         return response.data
     } catch (error) {
         console.log(error)
+    }
+})
+
+export const deletePostApi = createAsyncThunk('post/delete', async (id, thunkAPI) => {
+    try {
+        const response = await axios.delete(`${url}/${id}`)
+        response.headers.toJSON()
+        return response.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue({error})
     }
 })

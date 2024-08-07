@@ -4,7 +4,7 @@ import { TextField, Button, Typography, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { createPost, updatePost } from "../../api";
+import { createPostApi, updatePostApi } from "../../api";
 
 export default () => {
     const dispatch = useDispatch();
@@ -43,12 +43,11 @@ export default () => {
         e.preventDefault()
         
         if ( id ) {
-            dispatch(updatePost({...postData, id}))
-            console.log('redirecting...');            
+            dispatch(updatePostApi({...postData, id}))         
             navigate('/')
         }
         else {
-            dispatch(createPost(postData))
+            dispatch(createPostApi(postData))
             navigate('/')
         }
 

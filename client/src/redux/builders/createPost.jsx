@@ -1,8 +1,8 @@
-import { createPost } from '../../api';
+import { createPostApi } from '../../api';
 
 export default (builder) => {
     builder
-        .addCase(createPost.fulfilled, (state, action) => {
+        .addCase(createPostApi.fulfilled, (state, action) => {
             state.items.push(action.payload)
         })
 

@@ -1,8 +1,8 @@
-import { updatePost } from "../../api";
+import { updatePostApi } from "../../api";
 
 export default (builder) => {
     builder
-        .addCase(updatePost.fulfilled, (state, action) => {
+        .addCase(updatePostApi.fulfilled, (state, action) => {
             state.items = state.items.map(post => post._id === action.payload._id ? action.payload : post)
         })
     
