@@ -1,20 +1,11 @@
 import { Card, CardActions, CardMedia, Button, Typography, CardContent } from "@mui/material";
-import { useDispatch } from "react-redux";
-
-import { deletePostApi } from "../../api";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { formatDate } from "../../util";
 
-export default ({post}) => {
-    const distpatch = useDispatch();
+export default ({post, onDelete}) => {
     const {_id: id, title, creator, createdAt, selectedFile, tags, message, likeCount} = post;
-
-    const handleDelete = (event, id) => {
-        event.preventDefault()
-        distpatch(deletePostApi(id))    
-    }
 
     return (
         <Card className="flex flex-col justify-between rounded-2xl h-full relative">
@@ -41,7 +32,7 @@ export default ({post}) => {
                 <Button size="small" color="primary" onClick={() => {}}>
                     <ThumbUpAltIcon fontSize="small"/> Like {likeCount}
                 </Button>
-                <Button size="small" color="primary" onClick={(event) => handleDelete(event, id)}>
+                <Button size="small" color="primary" onClick={(event) => onDelete(event, id)}>
                     <DeleteIcon fontSize="small"/>
                 </Button>
             </CardActions>
