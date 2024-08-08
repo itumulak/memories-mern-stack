@@ -25,7 +25,7 @@ export default () => {
     }
 
     const handleCloseDialog = () => {
-        setIsOpenDeleteDialog(false)
+        setIsOpenDeleteDialog(false) 
     }
     
     return (

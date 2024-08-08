@@ -1,11 +1,14 @@
+
+import { useNavigate } from "react-router-dom";
 import { Card, CardActions, CardMedia, Button, Typography, CardContent } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import EditIcon from '@mui/icons-material/Edit';
 import { formatDate } from "../../util";
 
 export default ({post, onDelete}) => {
     const {_id: id, title, creator, createdAt, selectedFile, tags, message, likeCount} = post;
+    const navigate = useNavigate();
 
     return (
         <Card className="flex flex-col justify-between rounded-2xl h-full relative">
@@ -15,8 +18,8 @@ export default ({post, onDelete}) => {
                     <Typography variant="body2">{formatDate(createdAt)}</Typography>
                 </div>
                 <div className="absolute top-5 right-5 text-white">
-                    <Button className="text-white" size="small" onClick={() => {}}>
-                        <MoreHorizIcon className="text-white"/>
+                    <Button className="text-white" size="small" onClick={() => navigate(`/edit/${id}`)}>
+                        <EditIcon className="text-white"/>
                     </Button>
                 </div>
             </CardMedia>
