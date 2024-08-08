@@ -44,3 +44,13 @@ export const deletePostApi = createAsyncThunk('post/delete', async (id, thunkAPI
         return thunkAPI.rejectWithValue({error})
     }
 })
+
+export const likePostApi = createAsyncThunk('post/like', async (id, thunkAPI) => {
+    try {        
+        const response = await axios.patch(`${url}/${id}/like`)
+        response.headers.toJSON()
+        return response.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue({error})
+    }
+})

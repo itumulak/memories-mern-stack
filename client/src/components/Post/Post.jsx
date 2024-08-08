@@ -1,5 +1,7 @@
 
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { likePostApi } from "../../api";
 import { Card, CardActions, CardMedia, Button, Typography, CardContent } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -9,6 +11,11 @@ import { formatDate } from "../../util";
 export default ({post, onDelete}) => {
     const {_id: id, title, creator, createdAt, selectedFile, tags, message, likeCount} = post;
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleLikePost = () => {
+        dispatch(likePostApi(id))
+    }
 
     return (
         <Card className="flex flex-col justify-between rounded-2xl h-full relative">
@@ -32,7 +39,7 @@ export default ({post, onDelete}) => {
                 <Typography className="p-0" variant="h5" gutterBottom>{message}</Typography>
             </CardContent>
             <CardActions className="flex justify-between pt-0 pb-2 px-4">
-                <Button size="small" color="primary" onClick={() => {}}>
+                <Button size="small" color="primary" onClick={handleLikePost}>
                     <ThumbUpAltIcon fontSize="small"/> Like {likeCount}
                 </Button>
                 <Button size="small" color="primary" onClick={(event) => onDelete(event, id)}>
