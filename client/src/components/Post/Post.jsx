@@ -1,11 +1,11 @@
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { likePostApi } from "../../api";
 import { Card, CardActions, CardMedia, Button, Typography, CardContent } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
+import { likePostApi } from "../../api";
 import { formatDate } from "../../util";
 
 export default ({post, onDelete}) => {
@@ -29,14 +29,13 @@ export default ({post, onDelete}) => {
                         <EditIcon className="text-white"/>
                     </Button>
                 </div>
-            </CardMedia>
-            
+            </CardMedia>            
             <div className="flex justify-between m-5">
                 <Typography variant="body2" color="textSecondary">{tags}</Typography>
             </div>
             <Typography className="py-0 px-4" variant="h5" gutterBottom>{title}</Typography>
             <CardContent>
-                <Typography className="p-0" variant="h5" gutterBottom>{message}</Typography>
+                <Typography className="p-0" variant="body2" gutterBottom>{message}</Typography>
             </CardContent>
             <CardActions className="flex justify-between pt-0 pb-2 px-4">
                 <Button size="small" color="primary" onClick={handleLikePost}>
