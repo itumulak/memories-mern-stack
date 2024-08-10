@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import FileBase64 from "react-file-base64";
 import { TextField, Button, Typography, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { createPostApi, updatePostApi } from "../../api";
 import TagInput from "../TagInput";
@@ -23,7 +24,10 @@ export default () => {
     useEffect(() => {
         if ( id && post ) {            
             setPostData({...post})
-        }        
+        }
+        else {
+            clearData()
+        }      
     }, [id, post])    
 
     const handlePostData = (val, type) => {
@@ -37,7 +41,6 @@ export default () => {
 
     const clearData = () => {
         setPostData({creator: '', title: '', message: '', tags: [], selectedFile: ''})
-        setTags([])
     }
 
     const handleSubmit = (e) => {
@@ -78,7 +81,7 @@ export default () => {
     return (        
         <Paper>
             <form className="flex flex-col gap-5 p-8 " autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Typography variant="h6">{id ? 'Edit Memory' : 'Creating a Memory'}</Typography>
+                <Typography variant="h6">{id ? <div className="flex justify-between">Edit Memory <Button className="!min-w-0" component={Link} to="/"><ArrowBackIcon/></Button></div> : 'Creating a Memory'}</Typography>
                 <TextField name="creator" variant="outlined" label="Creator" fullWidth onChange={(event) => handlePostData(event.target.value, 'creator')} value={postData.creator}/>
                 <TextField name="title" variant="outlined" label="Title" fullWidth onChange={(event) => handlePostData(event.target.value, 'title')} value={postData.title}/>
                 <TextField name="message" variant="outlined" label="Message" fullWidth onChange={(event) => handlePostData(event.target.value, 'message')} value={postData.message}/>
