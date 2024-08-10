@@ -4,7 +4,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, B
 import { useDispatch } from "react-redux";
 import { CircularProgress, Grid } from "@mui/material";
 import { deletePostApi } from "../../api";
-import Post from "../Post";
+import Post from "../Post/Post";
 
 export default ({posts}) => {
     const dispatch = useDispatch();

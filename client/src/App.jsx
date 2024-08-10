@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 import { fetchPostsApi } from "./api";
 import "./index.css";
-import Posts from "./components/Posts";
-import Form from "./components/Form";
-import NavBar from "./components/NavBar";
+import Posts from "./components/Posts/Posts";
+import Form from "./components/Form/Form";
+import NavBar from "./components/NavBar/NavBar";
 
 function App() {
     const dispatch = useDispatch();

@@ -6,7 +6,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { createPostApi, updatePostApi } from "../../api";
-import TagInput from "../TagInput";
+import TagInput from "../TagInput/TagInput";
 
 export default () => {
     const dispatch = useDispatch();

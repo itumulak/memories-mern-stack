@@ -1,4 +1,3 @@
-import DownShift from "downshift";
 import { TextField, Chip } from "@mui/material";
 
 export default ({tags, onDelete, onKeyDown, ...props}) => {
