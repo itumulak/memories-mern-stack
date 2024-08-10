@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { fetchPostsApi } from "./api";
 import "./index.css";
 import memoriesImg from "./assets/images/memories.png"
-import Posts from "./components/Posts/Posts";
-import Form from "./components/Form/Form";
+import Posts from "./components/Posts";
+import Form from "./components/Form";
 
 function App() {
     const dispatch = useDispatch();

@@ -4,7 +4,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, B
 import { useSelector, useDispatch } from "react-redux";
 import { CircularProgress, Grid } from "@mui/material";
 import { deletePostApi } from "../../api";
-import Post from "../Post/Post";
+import Post from "../Post";
 
 export default () => {
     const posts = useSelector(state => state.posts.items)
