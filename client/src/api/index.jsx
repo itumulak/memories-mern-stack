@@ -2,8 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const url = 'http://localhost:5000/posts'
+const FETCH = 'posts/fetch'
+const ADD = 'post/add'
+const UPDATE = 'post/update'
+const DELETE = 'post/delete'
+const LIKE = 'post/like'
 
-export const fetchPostsApi = createAsyncThunk('posts/fetch', async () => {
+export const fetchPostsApi = createAsyncThunk(FETCH, async () => {
     try {
         const response  = await axios.get(url)
         return [...response.data]
@@ -12,7 +17,7 @@ export const fetchPostsApi = createAsyncThunk('posts/fetch', async () => {
     }
 })
 
-export const createPostApi = createAsyncThunk('post/add', async (newPost, thunkAPI) => {
+export const createPostApi = createAsyncThunk(ADD, async (newPost, thunkAPI) => {
     try {        
         const response = await axios.post(url, newPost)
         response.headers.toJSON()
@@ -23,7 +28,7 @@ export const createPostApi = createAsyncThunk('post/add', async (newPost, thunkA
     }
 })
 
-export const updatePostApi = createAsyncThunk('post/update', async (updatedPost) => {
+export const updatePostApi = createAsyncThunk(UPDATE, async (updatedPost) => {
     try {
         const { id } = updatedPost;        
         const response =  await axios.patch(`${url}/${id}`, updatedPost)
@@ -35,7 +40,7 @@ export const updatePostApi = createAsyncThunk('post/update', async (updatedPost)
     }
 })
 
-export const deletePostApi = createAsyncThunk('post/delete', async (id, thunkAPI) => {
+export const deletePostApi = createAsyncThunk(DELETE, async (id, thunkAPI) => {
     try {
         const response = await axios.delete(`${url}/${id}`)
         response.headers.toJSON()
@@ -45,7 +50,7 @@ export const deletePostApi = createAsyncThunk('post/delete', async (id, thunkAPI
     }
 })
 
-export const likePostApi = createAsyncThunk('post/like', async (id, thunkAPI) => {
+export const likePostApi = createAsyncThunk(LIKE, async (id, thunkAPI) => {
     try {        
         const response = await axios.patch(`${url}/${id}/like`)
         response.headers.toJSON()

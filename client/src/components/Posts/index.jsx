@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { CircularProgress, Grid } from "@mui/material";
 import { deletePostApi } from "../../api";
 import Post from "../Post";
 
-export default () => {
-    const posts = useSelector(state => state.posts.items)
+export default ({posts}) => {
     const dispatch = useDispatch();
     const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false)
     const [idToDelete, setIdToDelete] = useState('')    
