@@ -1,14 +1,19 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
+import Auth from "../Pages/Auth/Auth";
+import Home from "../Pages/Home/Home";
 
 export default  createBrowserRouter([
     {
         path: '/',
-        element: <App/>
+        element: <Home/>
     },
     {
         path: '/edit/:id',
-        element: <App/>
+        element: <Home/>
+    },
+    {
+        path: '/auth',
+        element: <Auth/>
     },
     {
         path: '*',
