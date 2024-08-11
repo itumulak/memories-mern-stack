@@ -10,6 +10,6 @@ export default () => {
                 <Typography component={Link} to="/" className="text-cyan-400" variant="h3" align="center">Memories</Typography>
             </div>
             <Button component={Link} to="/auth" variant="contained" size="medium">Login</Button>
-        </AppBar>
+        </AppBar> 
     )
 }
