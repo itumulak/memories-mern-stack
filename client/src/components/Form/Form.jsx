@@ -78,7 +78,7 @@ export default () => {
         }
     }
 
-    return (        
+    return (
         <Paper>
             <form className="flex flex-col gap-5 p-8 " autoComplete="off" noValidate onSubmit={handleSubmit}>
                 <Typography variant="h6">{id ? <div className="flex justify-between">Edit Memory <Button className="!min-w-0" component={Link} to="/"><ArrowBackIcon/></Button></div> : 'Creating a Memory'}</Typography>

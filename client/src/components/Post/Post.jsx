@@ -18,7 +18,7 @@ export default ({post, onDelete}) => {
     }
 
     return (
-        <Card className="flex flex-col justify-between rounded-2xl h-full relative">
+        <Card key={post._id} className="flex flex-col justify-between rounded-2xl h-full relative">
             <CardMedia className="h-48 pt-16 bg-blend-darken" image={selectedFile} title={title}>
                 <div className="absolute top-5 right-1">
                     <Button className="text-white" size="small" onClick={() => navigate(`/edit/${id}`)}>

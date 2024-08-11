@@ -1,19 +1,32 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Button, Container, Avatar, Typography, Paper, Stack, Grid } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useState } from "react";
 
+import { login } from '../../redux/slices/authSlice';
 import Input from './InputBuilder';
 import NavBar from "../../components/NavBar/NavBar";
 
 export default () => {
     const [isSignUp, setIsSignUp] = useState(true)
+    const dispatch = useDispatch()
 
     const handleSwitch = () => {
         setIsSignUp(!isSignUp)
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        console.log('handle sunbmit');
         
+        if (isSignUp) {
+
+        }
+        else {
+            console.log('fired!')
+            dispatch(login({firstName: 'Ian', lastName: 'Tumulak', email: 'edden87@gmail.com'}))
+        }
     }
 
     return (
@@ -27,7 +40,7 @@ export default () => {
                         </Avatar>
                         <Typography variant="h5">{isSignUp ? `Sign Up` : `Sign In`}</Typography>
                     </Container>
-                    <form className="flex gap-6 flex-col" onSubmit={handleSubmit}>
+                    <form className="flex gap-6 flex-col" onSubmit={(e) => handleSubmit(e)}>
                         {isSignUp && 
                         <Stack direction="row" spacing={3}>
                             <Input 
@@ -74,7 +87,7 @@ export default () => {
                             fullWidth
                         />
                         }
-                        <Button variant="contained" color="primary" size="large">
+                        <Button type="submit" variant="contained" color="primary" size="large">
                             {isSignUp ? `Sign Up` : `Sign In`}
                         </Button>
                         <Grid container className="!block text-center">

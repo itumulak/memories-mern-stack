@@ -14,7 +14,7 @@ export default ({name, label, type = 'text', isHalf = false, ...props}) => {
                 name={name}
                 label={label}
                 type={type === 'password' ? showPassword ? 'text' : 'password' : type}
-                InputProps={type === 'password' && {
+                InputProps={type === 'password' ? {
                     endAdornment: (
                         <InputAdornment position="end">
                             <IconButton onClick={handleShowPassword}>
@@ -22,7 +22,7 @@ export default ({name, label, type = 'text', isHalf = false, ...props}) => {
                             </IconButton>
                         </InputAdornment>
                     )
-                }}
+                } : {}}
                 {...props}
             />
         </Grid>

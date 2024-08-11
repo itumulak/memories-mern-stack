@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from 'react-router-dom';
 import { Grow, Container, Grid } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 
@@ -9,7 +10,7 @@ import Posts from '../../components/Posts/Posts'
 import NavBar from '../../components/NavBar/NavBar';
 
 export default () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
     const posts = useSelector(state => state.posts.items)
 
     useEffect(() => {
