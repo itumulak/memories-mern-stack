@@ -19,3 +19,10 @@ export const formatDate = (dateString) => {
         return monthDayFormatter.format(date);
     }
 }
+
+export const handleObjectDataChange = (val, type, object) => {
+    let newObj = new Object()
+    newObj[type] = val
+
+    return {...object, ...newObj}
+}

@@ -7,6 +7,9 @@ const ADD = 'post/add'
 const UPDATE = 'post/update'
 const DELETE = 'post/delete'
 const LIKE = 'post/like'
+const CREATE_USER = 'user/create'
+const UPDATE_USER = 'user/update'
+const FETCH_USER = 'user/fetch'
 
 export const fetchPostsApi = createAsyncThunk(FETCH, async () => {
     try {
@@ -57,5 +60,29 @@ export const likePostApi = createAsyncThunk(LIKE, async (id, thunkAPI) => {
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue({error})
+    }
+})
+
+export const createUser = createAsyncThunk(CREATE_USER, async (data, thunkAPI) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+})
+
+export const updateUser = createAsyncThunk(UPDATE_USER, async (data, thunkAPI) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+})
+
+export const fetchUser = createAsyncThunk(FETCH_USER, async (data, thunkAPI) => {
+    try {
+        
+    } catch (error) {
+        
     }
 })

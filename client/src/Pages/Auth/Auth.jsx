@@ -1,24 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Container, Avatar, Typography, Paper, Stack, Grid } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
+import { handleObjectDataChange } from "../../util";
 import { login } from '../../redux/slices/authSlice';
 import Input from './InputBuilder';
 import NavBar from "../../components/NavBar/NavBar";
 
 export default () => {
     const [isSignUp, setIsSignUp] = useState(true)
+    const [userInput, setUserInput] = useState({firstName: '', lastName: '', email: '', passowrd: ''})
     const dispatch = useDispatch()
 
     const handleSwitch = () => {
         setIsSignUp(!isSignUp)
     }
 
+    const handleChange = (val, type) => {
+        setUserInput(prevData => handleObjectDataChange(val, type, prevData))
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
-
-        console.log('handle sunbmit');
         
         if (isSignUp) {
 
@@ -50,6 +54,7 @@ export default () => {
                                 variant="outlined"
                                 required
                                 fullWidth
+                                onChange={e => handleChange(e.target.value, 'firstName')}
                             />
                             <Input 
                                 name="lastName" 
@@ -58,6 +63,7 @@ export default () => {
                                 variant="outlined"
                                 required
                                 fullWidth
+                                onChange={e => handleChange(e.target.value, 'lastName')}
                             />
                         </Stack>
                         }
@@ -68,6 +74,7 @@ export default () => {
                             variant="outlined"
                             required
                             fullWidth
+                            onChange={e => handleChange(e.target.value, 'email')}
                         />
                         <Input  
                             name="password" 
@@ -76,6 +83,7 @@ export default () => {
                             variant="outlined"
                             required
                             fullWidth
+                            onChange={e => handleChange(e.target.value, 'password')}
                         />
                         {isSignUp &&
                         <Input  
