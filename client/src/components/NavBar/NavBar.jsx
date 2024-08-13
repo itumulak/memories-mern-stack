@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate  } from 'react-router-dom';
 import { AppBar, Button, Typography } from "@mui/material";
 import { useDispatch } from 'react-redux';
 
-import { logout } from "../../redux/slices/authSlice";
+// import { logout } from "../../redux/slices/authSlice";
 import memoriesImg from "../../assets/images/memories.png"
 
 export default () => {
@@ -25,7 +25,7 @@ export default () => {
     }, [location])
 
     const handleLogout = () => {
-        dispatch(logout())
+        // dispatch(logout())
         navigate('/')
     }
 

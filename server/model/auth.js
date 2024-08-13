@@ -16,4 +16,4 @@ const authSchema = new moongoose.Schema({
     }
 })
 
-export default moongoose.model('AuthUser', authSchema)
+export default moongoose.model('Users', authSchema)

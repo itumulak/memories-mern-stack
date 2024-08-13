@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const url = 'http://localhost:5000/posts'
 const FETCH = 'posts/fetch'
 const ADD = 'post/add'
 const UPDATE = 'post/update'
@@ -9,11 +8,12 @@ const DELETE = 'post/delete'
 const LIKE = 'post/like'
 const CREATE_USER = 'user/create'
 const UPDATE_USER = 'user/update'
-const FETCH_USER = 'user/fetch'
+const SIGNIN_USER = 'user/signin'
+const API = axios.create({baseURL: 'http://localhost:5000'})
 
 export const fetchPostsApi = createAsyncThunk(FETCH, async () => {
     try {
-        const response  = await axios.get(url)
+        const response  = await API.get('/posts')
         return [...response.data]
     } catch (error) {
         console.log(error);
@@ -22,7 +22,7 @@ export const fetchPostsApi = createAsyncThunk(FETCH, async () => {
 
 export const createPostApi = createAsyncThunk(ADD, async (newPost, thunkAPI) => {
     try {        
-        const response = await axios.post(url, newPost)
+        const response = await API.post('/posts', newPost)
         response.headers.toJSON()
 
         return response.data
@@ -34,18 +34,18 @@ export const createPostApi = createAsyncThunk(ADD, async (newPost, thunkAPI) => 
 export const updatePostApi = createAsyncThunk(UPDATE, async (updatedPost) => {
     try {
         const { id } = updatedPost;        
-        const response =  await axios.patch(`${url}/${id}`, updatedPost)
+        const response =  await API.patch(`/posts/${id}`, updatedPost)
 
         response.headers.toJSON()
         return response.data
     } catch (error) {
-        console.log(error)
+        return thunkAPI.rejectWithValue({error})
     }
 })
 
 export const deletePostApi = createAsyncThunk(DELETE, async (id, thunkAPI) => {
     try {
-        const response = await axios.delete(`${url}/${id}`)
+        const response = await API.delete(`posts/${id}`)
         response.headers.toJSON()
         return response.data
     } catch (error) {
@@ -55,7 +55,7 @@ export const deletePostApi = createAsyncThunk(DELETE, async (id, thunkAPI) => {
 
 export const likePostApi = createAsyncThunk(LIKE, async (id, thunkAPI) => {
     try {        
-        const response = await axios.patch(`${url}/${id}/like`)
+        const response = await API.patch(`/posts/${id}/like`)
         response.headers.toJSON()
         return response.data
     } catch (error) {
@@ -63,23 +63,26 @@ export const likePostApi = createAsyncThunk(LIKE, async (id, thunkAPI) => {
     }
 })
 
-export const createUser = createAsyncThunk(CREATE_USER, async (data, thunkAPI) => {
+export const signIn = createAsyncThunk(SIGNIN_USER, async (data, thunkAPI) => {
     try {
         
     } catch (error) {
         
+    }
+})
+
+export const createUser = createAsyncThunk(CREATE_USER, async (data, thunkAPI) => {
+    try {
+        const response = await API.post('/auth/signup', data)
+        response.headers.toJSON()
+
+        return response.data
+    } catch (error) {        
+        return thunkAPI.rejectWithValue({error})
     }
 })
 
 export const updateUser = createAsyncThunk(UPDATE_USER, async (data, thunkAPI) => {
-    try {
-        
-    } catch (error) {
-        
-    }
-})
-
-export const fetchUser = createAsyncThunk(FETCH_USER, async (data, thunkAPI) => {
     try {
         
     } catch (error) {

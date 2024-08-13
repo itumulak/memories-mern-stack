@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const auth = async (request, response, next) => {
+export default async (request, response, next) => {
     const token = request.headers('Authorization').split(" ")[1]
  
     if ( ! token )  {
@@ -12,7 +12,6 @@ const auth = async (request, response, next) => {
         request.userId = decodedData?.id
         next()
     } catch (error) {
-        console.log(error);
-        
+        console.log(error);        
     }
 }

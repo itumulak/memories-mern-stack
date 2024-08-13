@@ -2,12 +2,12 @@ import moongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-import AuthUser from '../model/auth';
+import Users from '../model/auth.js';
 
 export const signInUser = async (request, response) => {
     try {
         const { email , password } = request.border
-        const existingUser = await AuthUser.findOne({email})
+        const existingUser = await Users.findOne({email})
     
         if ( ! existingUser ) {
             return response.status(404).json({message: `User doesn't exist.`})
@@ -30,7 +30,7 @@ export const signInUser = async (request, response) => {
 export const signUpUser = async (request, response) => {
     try {
         const { email, password, confirmPassword, firstName, lastName } = request.body
-        const existingUser = await AuthUser.findOne({email})
+        const existingUser = await Users.findOne({email})
 
         if ( existingUser ) {
             return response.status(400).json({message: `Email alrady in use.`})
@@ -42,7 +42,7 @@ export const signUpUser = async (request, response) => {
                     return response.status(404).json(error)
                 }
     
-                const newUser = new AuthUser({email, password: hash, firstName, lastName})
+                const newUser = new Users({email, password: hash, firstName, lastName})
     
                 try {
                     const result = await newUser.save()

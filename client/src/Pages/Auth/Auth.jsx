@@ -4,13 +4,13 @@ import { Button, Container, Avatar, Typography, Paper, Stack, Grid } from "@mui/
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import { handleObjectDataChange } from "../../util";
-import { login } from '../../redux/slices/authSlice';
+import { createUser } from "../../api";
 import Input from './InputBuilder';
 import NavBar from "../../components/NavBar/NavBar";
 
 export default () => {
     const [isSignUp, setIsSignUp] = useState(true)
-    const [userInput, setUserInput] = useState({firstName: '', lastName: '', email: '', passowrd: ''})
+    const [userInput, setUserInput] = useState({firstName: '', lastName: '', email: '', password: '', confirmPassword: ''})
     const dispatch = useDispatch()
 
     const handleSwitch = () => {
@@ -25,11 +25,12 @@ export default () => {
         e.preventDefault()
         
         if (isSignUp) {
-
+            console.log(userInput);
+            dispatch(createUser(userInput))
         }
         else {
             console.log('fired!')
-            dispatch(login({firstName: 'Ian', lastName: 'Tumulak', email: 'edden87@gmail.com'}))
+            // dispatch(login({firstName: 'Ian', lastName: 'Tumulak', email: 'edden87@gmail.com'}))
         }
     }
 
@@ -93,6 +94,7 @@ export default () => {
                             variant="outlined"
                             required
                             fullWidth
+                            onChange={e => handleChange(e.target.value, 'confirmPassword')}
                         />
                         }
                         <Button type="submit" variant="contained" color="primary" size="large">
