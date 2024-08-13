@@ -58,16 +58,29 @@ export const likePost = async (request, response) => {
     const { id: _id } = request.params
 
     try {
+        if ( ! request.userId ) {
+            return request.status(401).json({message: 'Unauthorized.'})
+        }
+
         if (!mongoose.Types.ObjectId.isValid(_id)) {
             return response.status(404).send('No post with that id')
         }
 
         const post = await PostMessage.findById(_id)
-        post.likeCount++;        
+        const index = post.likes.findById(id => id === String(request.userId))
+
+        if ( index === -1 ) {
+            post.likes.push(request.userId)
+            post.likeCount++
+        }
+        else {
+            post.likes.filter(id => id !== String(request.userId))
+            post.likeCount--
+        }      
 
         const updatePost = await PostMessage.findByIdAndUpdate(_id, {...post}, {new: true})        
         response.status(201).json(updatePost)
     } catch (error) {
-        
+        response.status(500).json({message: error.message})
     }
 }

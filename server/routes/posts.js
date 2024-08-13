@@ -6,13 +6,14 @@ import {
     deletePost as deletePostController,
     likePost as likePostController
 } from "../controller/postsController.js";
+import authMiddleware from '../middleware/auth.js';
 
 const router = express.Router();
 
 router.get('/', getPostsController)
-router.post('/', createPostController)
-router.patch('/:id', updatePostController)
-router.delete('/:id', deletePostController)
-router.patch('/:id/like', likePostController)
+router.post('/', authMiddleware, createPostController)
+router.patch('/:id', authMiddleware, updatePostController)
+router.delete('/:id', authMiddleware, deletePostController)
+router.patch('/:id/like', authMiddleware, likePostController)
 
 export default router;
