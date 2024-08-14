@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import fetchPosts from "../builders/fetchPosts";
-import createPost from "../builders/createPost";
-import updatePost from "../builders/updatePost";
-import deletePost from "../builders/deletePost";
-import likePost from "../builders/likePost";
+import fetchPosts from "../actions/fetchPosts";
+import createPost from "../actions/createPost";
+import updatePost from "../actions/updatePost";
+import deletePost from "../actions/deletePost";
+import likePost from "../actions/likePost";
 
 const postsSlice = createSlice({
     name: 'posts',

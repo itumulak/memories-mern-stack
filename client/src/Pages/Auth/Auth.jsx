@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Container, Avatar, Typography, Paper, Stack, Grid } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import { handleObjectDataChange } from "../../util";
-import { createUser } from "../../api";
+import { createUser, signIn } from "../../api";
 import Input from './InputBuilder';
 import NavBar from "../../components/NavBar/NavBar";
 
 export default () => {
-    const [isSignUp, setIsSignUp] = useState(true)
+    const [isSignUp, setIsSignUp] = useState(false)
     const [userInput, setUserInput] = useState({firstName: '', lastName: '', email: '', password: '', confirmPassword: ''})
     const dispatch = useDispatch()
+    const userData = useSelector(state => state.auth)
 
     const handleSwitch = () => {
         setIsSignUp(!isSignUp)
@@ -25,14 +26,16 @@ export default () => {
         e.preventDefault()
         
         if (isSignUp) {
-            console.log(userInput);
             dispatch(createUser(userInput))
         }
         else {
-            console.log('fired!')
-            // dispatch(login({firstName: 'Ian', lastName: 'Tumulak', email: 'edden87@gmail.com'}))
+            dispatch(signIn(userInput))
         }
     }
+
+    useEffect(() => {
+        console.log(userData)
+    }, [userData])
 
     return (
         <>

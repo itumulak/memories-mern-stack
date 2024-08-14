@@ -65,15 +65,18 @@ export const likePostApi = createAsyncThunk(LIKE, async (id, thunkAPI) => {
 
 export const signIn = createAsyncThunk(SIGNIN_USER, async (data, thunkAPI) => {
     try {
-        
+        const response = await API.post('/user/signin', data)
+        response.headers.toJSON()
+
+        return response.data
     } catch (error) {
-        
+        return thunkAPI.rejectWithValue({error})
     }
 })
 
 export const createUser = createAsyncThunk(CREATE_USER, async (data, thunkAPI) => {
     try {
-        const response = await API.post('/auth/signup', data)
+        const response = await API.post('/user/signup', data)
         response.headers.toJSON()
 
         return response.data
