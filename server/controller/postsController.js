@@ -13,7 +13,7 @@ export const getPosts = async (request, response) => {
 
 export const createPost = async (request, response) => {
     const post = request.body;
-    const newPost = new PostMessage(post)
+    const newPost = new PostMessage({...post, creator: request.userId, createdAt: new Date().toISOString()})
 
     try {
         const status = await newPost.save()

@@ -10,9 +10,16 @@ const CREATE_USER = 'user/create'
 const UPDATE_USER = 'user/update'
 const SIGNIN_USER = 'user/signin'
 const API = axios.create({baseURL: 'http://localhost:5000'})
-const HEADERS = {headers: {
-    Authorization: localStorage.getItem('loginToken') && `Bearer ${localStorage.getItem('loginToken')}`
-}}
+
+API.interceptors.request.use((request) => {
+    const token = localStorage.getItem('loginToken')
+
+    if ( token ) {
+        request.headers.Authorization = `Bearer ${token}`
+    }
+
+    return request
+})
 
 export const fetchPostsApi = createAsyncThunk(FETCH, async () => {
     try {
@@ -25,7 +32,7 @@ export const fetchPostsApi = createAsyncThunk(FETCH, async () => {
 
 export const createPostApi = createAsyncThunk(ADD, async (newPost, thunkAPI) => {
     try {        
-        const response = await API.post('/posts', newPost, HEADERS)
+        const response = await API.post('/posts', newPost)
         response.headers.toJSON()
 
         return response.data
@@ -37,7 +44,7 @@ export const createPostApi = createAsyncThunk(ADD, async (newPost, thunkAPI) => 
 export const updatePostApi = createAsyncThunk(UPDATE, async (updatedPost) => {
     try {
         const { id } = updatedPost;        
-        const response =  await API.patch(`/posts/${id}`, updatedPost, HEADERS)
+        const response =  await API.patch(`/posts/${id}`, updatedPost)
 
         response.headers.toJSON()
         return response.data
@@ -58,7 +65,7 @@ export const deletePostApi = createAsyncThunk(DELETE, async (id, thunkAPI) => {
 
 export const likePostApi = createAsyncThunk(LIKE, async (id, thunkAPI) => {
     try {        
-        const response = await API.patch(`/posts/${id}/like`, id, HEADERS)
+        const response = await API.patch(`/posts/${id}/like`, id)
         response.headers.toJSON()
         return response.data
     } catch (error) {

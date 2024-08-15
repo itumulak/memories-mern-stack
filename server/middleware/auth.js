@@ -18,7 +18,7 @@ export default async (request, response, next) => {
 
     }
     else {
-        console.log('hhaaaa!');
+        return response.status(401).json({message: 'Token not available.'})
     }
  
     if ( ! token )  {

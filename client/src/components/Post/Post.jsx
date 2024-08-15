@@ -9,7 +9,7 @@ import { likePostApi } from "../../api";
 import { formatDate } from "../../util";
 
 export default ({post, onDelete}) => {
-    const {_id: id, title, creator, createdAt, selectedFile, tags, message, likeCount} = post;
+    const {_id: id, title, name, createdAt, selectedFile, tags, message, likeCount} = post;
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -31,7 +31,7 @@ export default ({post, onDelete}) => {
             <div className="pt-6 px-4">
                 <Typography variant="h5" gutterBottom>{title}</Typography>
                 <div className="flex flex-row gap-x-1 items-center">
-                    <Typography variant="body2">{creator}</Typography> - <Typography variant="body2">{formatDate(createdAt)}</Typography>
+                    <Typography variant="body2">{name}</Typography> - <Typography variant="body2">{formatDate(createdAt)}</Typography>
                 </div>
             </div>
             <CardContent>

@@ -6,8 +6,10 @@ export default (builder) => {
 
         if (success) {
             const token = action.payload.token
+            const name = action.payload.name
 
-            localStorage.setItem('loginToken', token)         
+            localStorage.setItem('loginToken', token)
+            localStorage.setItem('loginName', name)    
             return {...state, message: '', token, isLogin: true }
         }
         else {
