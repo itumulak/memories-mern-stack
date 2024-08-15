@@ -6,14 +6,24 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { likePostApi } from "../../api";
 import { formatDate } from "../../util";
+import { useEffect, useState } from "react";
 
 export default ({post, onDelete}) => {
-    const {_id: id, title, name, createdAt, selectedFile, tags, message, likeCount} = post;
+    const {_id: id, title, name, createdAt, selectedFile, tags, message, likes, likeCount} = post;
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const isLogin = useSelector(state => state.auth.isLogin)
+    const isLogin = useSelector(state => state.auth.isLogin)  
+    const userId = useSelector(state => state.auth.id)
+    const [canLike, setCanLike] = useState(true)
+    
+    useEffect(() => {
+        if ( likes.includes(userId) ) {            
+            setCanLike(!canLike)          
+        }
+    }, [post, userId])
 
     const handleLikePost = () => {
         dispatch(likePostApi(id))
@@ -46,15 +56,16 @@ export default ({post, onDelete}) => {
                 <Typography className="flex items-center gap-2" variant="body2"><ThumbUpIcon color="info" fontSize="small"/> {likeCount}</Typography>
             </CardContent>
             <CardActions className="flex justify-between pt-0 pb-2 px-4">
+                <Button disabled={!isLogin} variant="contained" className="flex flex-row items-center gap-x-1" size="small" color="primary" onClick={isLogin && handleLikePost}>
+                    {canLike ? 
+                        <><ThumbUpAltIcon fontSize="small"/> Like</> : 
+                        <><ThumbDownIcon fontSize="small"/> Unlike</>
+                    }
+                </Button>
                 {isLogin &&
-                    <>
-                        <Button variant="contained" className="flex flex-row items-center gap-x-1" size="small" color="primary" onClick={isLogin && handleLikePost}>
-                            <ThumbUpAltIcon fontSize="small"/> Like
-                        </Button>
-                        <Button size="small" color="primary" onClick={(event) => onDelete(event, id)}>
-                            <DeleteIcon fontSize="small"/>
-                        </Button>
-                    </>
+                    <Button size="small" color="primary" onClick={(event) => onDelete(event, id)}>
+                        <DeleteIcon fontSize="small"/>
+                    </Button>
                 }
             </CardActions>
         </Card>

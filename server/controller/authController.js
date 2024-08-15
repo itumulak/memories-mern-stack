@@ -21,7 +21,7 @@ export const signInUser = async (request, response) => {
         
         const token = jwt.sign({email: existingUser.email, id: existingUser._id}, process.env.JWT_SECRET, { expiresIn: '1h'})
      
-        response.status(201).json({token, name: `${existingUser.firstName} ${existingUser.lastName}`, success: true})
+        response.status(201).json({token, id: existingUser._id, name: `${existingUser.firstName} ${existingUser.lastName}`, success: true})
     } catch (error) {
         response.status(404).json({success: false, message: error.message})
     }
@@ -48,7 +48,7 @@ export const signUpUser = async (request, response) => {
                     const result = await newUser.save()
                     const token = jwt.sign({email: result.email, id: result._id}, process.env.JWT_SECRET, { expiresIn: '1h' })
                     
-                    response.status(201).json({token, name: `${result.firstName} ${result.lastName}`, success: true})
+                    response.status(201).json({token, id: result._id, name: `${result.firstName} ${result.lastName}`, success: true})
                 } catch (error) {
                     response.status(404).json({success: false, message: 'An internal error occured', error})
                 }
@@ -73,7 +73,7 @@ export const validateLogin = async (request, response) => {
         else {
             const userId = decoded?.id
             const user = await Users.findById(userId)
-            response.json({success: true, name: `${user.firstName} ${user.lastName}`})
+            response.json({success: true, id: userId, name: `${user.firstName} ${user.lastName}`})
         }
     })
 }

@@ -5,11 +5,14 @@ export default (builder) => {
         const success = action.payload.success   
 
         if (success) {
-            return {...state, isLogin: true }
+            const { name, id } = action.payload
+            return {...state, name, id, isLogin: true }
         }
         else {
             localStorage.removeItem('loginToken')
             localStorage.removeItem('loginName')
+            localStorage.removeItem('loginId')
+
             return {...state, message: action.payload.message, isLogin: false}
         }
     })

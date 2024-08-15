@@ -6,6 +6,8 @@ import validateLogin from '../actions/validateLogin';
 const initialState =  {
     token: '', 
     message: '', 
+    id: '',
+    name: '',
     isLogin: false
 }
 
@@ -16,6 +18,7 @@ const authSlice = createSlice({
         logout: () => {
             localStorage.removeItem('loginToken')
             localStorage.removeItem('loginName')
+            localStorage.removeItem('loginId')
             return {...initialState}
         }
     },

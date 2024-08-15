@@ -5,12 +5,13 @@ export default (builder) => {
         const success = action.payload.success
 
         if (success) {
-            const token = action.payload.token
-            const name = action.payload.name
+            const { id, name, token } = action.payload
 
             localStorage.setItem('loginToken', token)
-            localStorage.setItem('loginName', name)    
-            return {...state, message: '', token, isLogin: true }
+            localStorage.setItem('loginName', name)   
+            localStorage.setItem('loginId', id) 
+
+            return {...state, message: '', name, id, token, isLogin: true }
         }
         else {
             return {...state, message: action.payload.message, isLogin: false}
