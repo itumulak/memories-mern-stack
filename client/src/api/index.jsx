@@ -9,6 +9,7 @@ const LIKE = 'post/like'
 const CREATE_USER = 'user/create'
 const UPDATE_USER = 'user/update'
 const SIGNIN_USER = 'user/signin'
+const VALIDATE_USER = 'user/validate'
 const API = axios.create({baseURL: 'http://localhost:5000'})
 
 API.interceptors.request.use((request) => {
@@ -100,5 +101,16 @@ export const updateUser = createAsyncThunk(UPDATE_USER, async (data, thunkAPI) =
         
     } catch (error) {
         
+    }
+})
+
+export const validateLogin = createAsyncThunk(VALIDATE_USER, async (token, thunkAPI) => {
+    try {
+        const response = await API.post('/user/validate', token)
+        response.headers.toJSON()
+        
+        return response.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue({error})
     }
 })

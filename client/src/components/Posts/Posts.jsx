@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Paper } from "@mui/material";
+import { Grid, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Paper } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { CircularProgress, Grid } from "@mui/material";
 import { deletePostApi } from "../../api";
 import Post from "../Post/Post";
 

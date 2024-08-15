@@ -81,7 +81,7 @@ export default () => {
     return (
         <Paper>
             <form className="flex flex-col gap-5 p-8 " autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Typography variant="h6">{id ? <div className="flex justify-between">Edit Memory <Button className="!min-w-0" component={Link} to="/"><ArrowBackIcon/></Button></div> : 'Creating a Memory'}</Typography>
+                <Typography variant="h6">{id ? <div className="flex justify-between">Edit Memory <Button className="!min-w-0" component={Link} to="/"><ArrowBackIcon/></Button></div> : 'Create your Memory'}</Typography>
                 <TextField name="title" variant="outlined" label="Title" fullWidth onChange={(event) => handlePostData(event.target.value, 'title')} value={postData.title}/>
                 <TextField name="message" variant="outlined" label="Message" fullWidth onChange={(event) => handlePostData(event.target.value, 'message')} value={postData.message}/>
                 <TagInput tags={postData.tags} onDelete={handleTagDelete} onKeyDown={handleTagKeyEvent}/>

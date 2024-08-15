@@ -62,3 +62,18 @@ export const signUpUser = async (request, response) => {
         response.status(404).json(error)
     }
 }
+
+export const validateLogin = async (request, response) => {
+    const {token} = request.body
+    
+    jwt.verify(token, process.env.JWT_SECRET, async (error, decoded) => {       
+        if (error) {
+            response.json({success: false, name: error.name, message: error.message})
+        }
+        else {
+            const userId = decoded?.id
+            const user = await Users.findById(userId)
+            response.json({success: true, name: `${user.firstName} ${user.lastName}`})
+        }
+    })
+}
