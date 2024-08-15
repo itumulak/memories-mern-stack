@@ -16,11 +16,9 @@ export default () => {
         setUserName(localStorage.getItem('loginName'))
     }, [user])
 
-    const handleLogout = () => {
-        
+    const handleLogout = () => {        
         dispatch(logout())
         navigate('/')
-        console.log(user);
     }
 
     return (

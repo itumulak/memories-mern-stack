@@ -1,10 +1,11 @@
 
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { Card, CardActions, CardMedia, Button, Typography, CardContent, Paper } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { Card, CardActions, CardMedia, Button, Typography, CardContent, Paper, Fab, Avatar } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { likePostApi } from "../../api";
 import { formatDate } from "../../util";
 
@@ -12,6 +13,7 @@ export default ({post, onDelete}) => {
     const {_id: id, title, name, createdAt, selectedFile, tags, message, likeCount} = post;
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const isLogin = useSelector(state => state.auth.isLogin)
 
     const handleLikePost = () => {
         dispatch(likePostApi(id))
@@ -21,11 +23,14 @@ export default ({post, onDelete}) => {
         <Card key={post._id} className="flex flex-col justify-between rounded-2xl h-full relative">
             <CardMedia className="h-48 pt-16 bg-blend-darken" image={selectedFile} title={title}>
                 <div className="absolute top-5 right-1">
-                    <Button className="text-white" size="small" onClick={() => navigate(`/edit/${id}`)}>
-                        <Paper className="p-1">
-                            <EditIcon fontSize="small" style={{color: 'black'}} className="text-white"/>    
-                        </Paper>
-                    </Button>
+                    {isLogin && 
+                        <Button className="text-white" size="small" onClick={() => navigate(`/edit/${id}`)}>
+                            <Paper className="p-1">
+                                <EditIcon fontSize="small" style={{color: 'black'}} className="text-white"/>    
+                            </Paper>
+                        </Button>
+                    }
+                    
                 </div>
             </CardMedia>
             <div className="pt-6 px-4">
@@ -37,14 +42,20 @@ export default ({post, onDelete}) => {
             <CardContent>
                 <Typography className="p-0" variant="body1" gutterBottom>{message}</Typography>
                 <Typography variant="body2" color="textSecondary" className="flex gap-1">{tags.map((tag, index) => <span key={`${tag}${index}`}>#{tag}</span>)}</Typography>
+                <br />
+                <Typography className="flex items-center gap-2" variant="body2"><ThumbUpIcon color="info" fontSize="small"/> {likeCount}</Typography>
             </CardContent>
             <CardActions className="flex justify-between pt-0 pb-2 px-4">
-                <Button className="flex flex-row items-center gap-x-1" size="small" color="primary" onClick={handleLikePost}>
-                    <ThumbUpAltIcon fontSize="small"/> Like {likeCount}
-                </Button>
-                <Button size="small" color="primary" onClick={(event) => onDelete(event, id)}>
-                    <DeleteIcon fontSize="small"/>
-                </Button>
+                {isLogin &&
+                    <>
+                        <Button variant="contained" className="flex flex-row items-center gap-x-1" size="small" color="primary" onClick={isLogin && handleLikePost}>
+                            <ThumbUpAltIcon fontSize="small"/> Like
+                        </Button>
+                        <Button size="small" color="primary" onClick={(event) => onDelete(event, id)}>
+                            <DeleteIcon fontSize="small"/>
+                        </Button>
+                    </>
+                }
             </CardActions>
         </Card>
     )

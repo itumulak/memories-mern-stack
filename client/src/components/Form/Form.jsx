@@ -9,6 +9,7 @@ import { createPostApi, updatePostApi } from "../../api";
 import TagInput from "../TagInput/TagInput";
 
 export default () => {
+    const isLogin = useSelector(state => state.auth.isLogin)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
@@ -80,17 +81,23 @@ export default () => {
 
     return (
         <Paper>
-            <form className="flex flex-col gap-5 p-8 " autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Typography variant="h6">{id ? <div className="flex justify-between">Edit Memory <Button className="!min-w-0" component={Link} to="/"><ArrowBackIcon/></Button></div> : 'Create your Memory'}</Typography>
-                <TextField name="title" variant="outlined" label="Title" fullWidth onChange={(event) => handlePostData(event.target.value, 'title')} value={postData.title}/>
-                <TextField name="message" variant="outlined" label="Message" fullWidth onChange={(event) => handlePostData(event.target.value, 'message')} value={postData.message}/>
-                <TagInput tags={postData.tags} onDelete={handleTagDelete} onKeyDown={handleTagKeyEvent}/>
-                <div>
-                    <FileBase64 type="file" multiple={false} onDone={({base64}) => handlePostData(base64, 'selectedFile')} />
+            {isLogin ? 
+                <form className="flex flex-col gap-5 p-8 " autoComplete="off" noValidate onSubmit={handleSubmit}>
+                    <Typography variant="h6">{id ? <div className="flex justify-between">Edit Memory <Button className="!min-w-0" component={Link} to="/"><ArrowBackIcon/></Button></div> : 'Create your Memory'}</Typography>
+                    <TextField name="title" variant="outlined" label="Title" fullWidth onChange={(event) => handlePostData(event.target.value, 'title')} value={postData.title}/>
+                    <TextField name="message" variant="outlined" label="Message" fullWidth onChange={(event) => handlePostData(event.target.value, 'message')} value={postData.message}/>
+                    <TagInput tags={postData.tags} onDelete={handleTagDelete} onKeyDown={handleTagKeyEvent}/>
+                    <div>
+                        <FileBase64 type="file" multiple={false} onDone={({base64}) => handlePostData(base64, 'selectedFile')} />
+                    </div>
+                    <Button variant="contained" color="primary" size="large" type="submit">{id ? 'Update' : 'Submit'}</Button>
+                    <Button variant="contained" color="secondary" size="small" onClick={clearData}>Clear</Button>
+                </form> : 
+                <div className="flex flex-col gap-y-2 items-center justify-center min-h-96">
+                    <Typography variant="body1">You are not logged in.</Typography>
+                    <Button variant="contained" size="small" component={Link} to="/auth">Login</Button>
                 </div>
-                <Button variant="contained" color="primary" size="large" type="submit">{id ? 'Update' : 'Submit'}</Button>
-                <Button variant="contained" color="secondary" size="small" onClick={clearData}>Clear</Button>
-            </form>
+            }
         </Paper>
     )
 }
