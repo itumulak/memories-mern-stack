@@ -18,7 +18,7 @@ export default async (request, response, next) => {
 
     }
     else {
-        return response.status(401).json({message: 'Token not available.'})
+        return response.status(401).json({message: 'User not logged in.'})
     }
  
     if ( ! token )  {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { Grow, Container, Grid, Paper } from "@mui/material";
+import { Grow, Container, Grid } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 
 import { fetchPostsApi } from "../../api";
