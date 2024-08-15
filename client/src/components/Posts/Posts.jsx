@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Paper } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { CircularProgress, Grid } from "@mui/material";
 import { deletePostApi } from "../../api";
@@ -25,19 +25,20 @@ export default ({posts}) => {
 
     const handleCloseDialog = () => {
         setIsOpenDeleteDialog(false) 
-    }
+    } 
     
     return (
         <>
             {
-                !posts.length ? <CircularProgress/> :
+                posts.length > 0 ? 
                     <Grid container alignItems="stretch" spacing={3}>
                         {posts.map(post => (
                             <Grid key={post._id} item xs={12} sm={6}>
                                 <Post key={post._id} onDelete={handleDelete} post={post}/>
                             </Grid>
                         ))}
-                    </Grid>
+                    </Grid> :
+                    <Paper>You have no memories.</Paper>
             }
             {createPortal(
                 <Dialog open={isOpenDeleteDialog} onClose={handleCloseDialog} aria-labelledby="confirm-delete-title" aria-describedby="confirm-delete-description">

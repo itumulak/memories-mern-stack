@@ -36,7 +36,7 @@ export default ({post, onDelete}) => {
             </div>
             <CardContent>
                 <Typography className="p-0" variant="body1" gutterBottom>{message}</Typography>
-                <Typography variant="body2" color="textSecondary" className="flex gap-1">{tags.map(tag => <span>#{tag}</span>)}</Typography>
+                <Typography variant="body2" color="textSecondary" className="flex gap-1">{tags.map((tag, index) => <span key={`${tag}${index}`}>#{tag}</span>)}</Typography>
             </CardContent>
             <CardActions className="flex justify-between pt-0 pb-2 px-4">
                 <Button className="flex flex-row items-center gap-x-1" size="small" color="primary" onClick={handleLikePost}>

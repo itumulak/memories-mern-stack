@@ -6,10 +6,9 @@ export default (builder) => {
             state.status = 'pending'
         })
         .addCase(fetchPostsApi.fulfilled, (state, action) => {
-            state.status = 'succeeded'
             const loadedPosts = action.payload;
 
-            state.items = loadedPosts
+            return {...state, status: 'succeeded', items: loadedPosts, fulfilled: true};
         })
         .addCase(fetchPostsApi.rejected, (state, action) => {
             state.status = 'failed'

@@ -19,11 +19,11 @@ export const signInUser = async (request, response) => {
             return response.status(400).json({success: false, message: `Email/Password is incorrect.`})
         }
         
-        const token = jwt.sign({email: existingUser.email, id: existingUser._id}, 'test', { expiresIn: '1h'})
-    
-        response.status(200).json({success: true, data: existingUser, token})
+        const token = jwt.sign({email: existingUser.email, id: existingUser._id}, process.env.JWT_SECRET, { expiresIn: '1h'})
+     
+        response.status(201).json({token, success: true})
     } catch (error) {
-        response.status(404).json({error, email, password})
+        response.status(404).json({success: false, message: error.message})
     }
 }
 
@@ -48,7 +48,7 @@ export const signUpUser = async (request, response) => {
                     const result = await newUser.save()
                     const token = jwt.sign({email: result.email, id: result._id}, process.env.JWT_SECRET, { expiresIn: '1h' })
                     
-                    response.status(200).json({success: true, data: result, token})
+                    response.status(201).json({token})
                 } catch (error) {
                     response.status(404).json({success: false, message: 'An internal error occured', error})
                 }

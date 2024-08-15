@@ -3,9 +3,6 @@ import signUpUser from '../actions/signUpUser';
 import signInUser from '../actions/signInUser';
 
 const initialState =  {
-    firstName: '', 
-    lastName: '', 
-    email: '', 
     token: '', 
     message: '', 
     isLogin: false

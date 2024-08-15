@@ -7,7 +7,7 @@ import likePost from "../actions/likePost";
 
 const postsSlice = createSlice({
     name: 'posts',
-    initialState: {status: 'idle', items: [], error: ''},
+    initialState: {status: 'idle', items: [], error: '', fulfilled: false},
     reducers: {},
     extraReducers: (builder) => {
         fetchPosts(builder)

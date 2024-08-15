@@ -67,7 +67,7 @@ export const likePost = async (request, response) => {
         }
 
         const post = await PostMessage.findById(_id)
-        const index = post.likes.findById(id => id === String(request.userId))
+        const index = post.likes.findIndex(id => id === String(request.userId))
 
         if ( index === -1 ) {
             post.likes.push(request.userId)

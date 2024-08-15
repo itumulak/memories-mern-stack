@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from 'react-router-dom';
-import { Grow, Container, Grid } from "@mui/material";
+import { Grow, Container, Grid, Paper } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 
 import { fetchPostsApi } from "../../api";
@@ -12,6 +12,7 @@ import NavBar from '../../components/NavBar/NavBar';
 export default () => {
     const dispatch = useDispatch()
     const posts = useSelector(state => state.posts.items)
+    const isFulfilled = useSelector(state => state.posts.fulfilled)    
 
     useEffect(() => {
         dispatch(fetchPostsApi())
@@ -24,7 +25,7 @@ export default () => {
                 <Container>
                     <Grid minHeight={600} container justifyItems="space-between" alignItems="stretch" spacing={3}>
                     {
-                        !posts.length > 0 ? <div className="m-auto"><CircularProgress/></div> : 
+                        !isFulfilled ? <div className="m-auto"><CircularProgress/></div> : 
                         <>
                             <Grid item xs={12} sm={4}>
                                 <Form/>
