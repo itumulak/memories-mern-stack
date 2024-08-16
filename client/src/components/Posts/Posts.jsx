@@ -4,8 +4,9 @@ import { Grid, Dialog, DialogActions, DialogContent, DialogContentText, DialogTi
 import { useDispatch } from "react-redux";
 import { deletePostApi } from "../../api";
 import Post from "../Post/Post";
+import Paginate from "../Pagination/Paginate";
 
-export default ({posts}) => {
+export default ({posts, totalPosts}) => {
     const dispatch = useDispatch();
     const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false)
     const [idToDelete, setIdToDelete] = useState('')    
@@ -30,12 +31,19 @@ export default ({posts}) => {
         <>
             {
                 posts.length > 0 ? 
-                    <Grid container alignItems="stretch" spacing={3}>
-                        {posts.map(post => (
-                            <Grid key={post._id} item xs={12} sm={6}>
-                                <Post key={post._id} onDelete={handleDelete} post={post}/>
+                    <Grid container rowGap={3}>
+                        <Grid container alignItems="stretch" spacing={3}>
+                            {posts.map(post => (
+                                <Grid key={post._id} item xs={12} sm={6}>
+                                    <Post key={post._id} onDelete={handleDelete} post={post}/>
+                                </Grid>
+                            ))}
+                        </Grid>
+                        {totalPosts > 10 &&
+                            <Grid container alignItems="center" justifyContent="center">
+                                <Paginate pageSize={10} totalPosts={totalPosts}/>
                             </Grid>
-                        ))}
+                        }
                     </Grid> :
                     <Paper>You have no memories.</Paper>
             }

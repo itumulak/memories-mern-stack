@@ -22,12 +22,16 @@ API.interceptors.request.use((request) => {
     return request
 })
 
-export const fetchPostsApi = createAsyncThunk(FETCH, async () => {
+export const fetchPostsApi = createAsyncThunk(FETCH, async (page, thunkAPI) => {
+    const currentPage = page || 0
+
     try {
-        const response  = await API.get('/posts')
-        return [...response.data]
+        const response  = await API.get(`/posts/${currentPage}`)
+        const { posts, total } = response.data
+
+        return {posts, total}
     } catch (error) {
-        console.log(error);
+        return thunkAPI.rejectWithValue({error})
     }
 })
 
@@ -42,7 +46,7 @@ export const createPostApi = createAsyncThunk(ADD, async (newPost, thunkAPI) => 
     }
 })
 
-export const updatePostApi = createAsyncThunk(UPDATE, async (updatedPost) => {
+export const updatePostApi = createAsyncThunk(UPDATE, async (updatedPost, thunkAPI) => {
     try {
         const { id } = updatedPost;        
         const response =  await API.patch(`/posts/${id}`, updatedPost)

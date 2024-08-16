@@ -1,4 +1,5 @@
 import { fetchPostsApi } from '../../api';
+import { logout } from '../slices/authSlice';
 
 export default (builder) => {
     builder
@@ -8,7 +9,7 @@ export default (builder) => {
         .addCase(fetchPostsApi.fulfilled, (state, action) => {
             const loadedPosts = action.payload;
 
-            return {...state, status: 'succeeded', items: loadedPosts, fulfilled: true};
+            return {...state, status: 'succeeded', items: loadedPosts.posts, total: loadedPosts.total, fulfilled: true};
         })
         .addCase(fetchPostsApi.rejected, (state, action) => {
             state.status = 'failed'

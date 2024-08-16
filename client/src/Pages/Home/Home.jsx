@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from 'react-router-dom';
 import { Grow, Container, Grid } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 
@@ -11,11 +12,15 @@ import NavBar from '../../components/NavBar/NavBar';
 export default () => {
     const dispatch = useDispatch()
     const posts = useSelector(state => state.posts.items)
-    const isFulfilled = useSelector(state => state.posts.fulfilled)    
+    const totalPosts = useSelector(state => state.posts.total)
+    const isFulfilled = useSelector(state => state.posts.fulfilled)   
+    const { page } = useParams()
 
     useEffect(() => {
-        dispatch(fetchPostsApi())
-    }, [dispatch])
+        let currentPage = page - 1
+
+        dispatch(fetchPostsApi(currentPage))
+    }, [dispatch, page])
 
     return (
         <>
@@ -30,7 +35,7 @@ export default () => {
                                 <Form/>
                             </Grid>
                             <Grid item xs={12} sm={8}>
-                                <Posts posts={posts}/>
+                                <Posts posts={posts} totalPosts={totalPosts}/>
                             </Grid>
                         </>
                     }

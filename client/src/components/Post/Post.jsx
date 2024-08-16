@@ -43,8 +43,7 @@ export default ({post, onDelete}) => {
                                 <EditIcon fontSize="small" style={{color: 'black'}} className="text-white"/>    
                             </Paper>
                         </Button>
-                    }
-                    
+                    }                    
                 </div>
             </CardMedia>
             <div className="pt-6 px-4">

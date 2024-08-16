@@ -2,13 +2,23 @@ import mongoose from "mongoose";
 import PostMessage from "../model/postMessage.js";
 
 export const getPosts = async (request, response) => {
+    const { page } = request.params
+
     try {
-        const postMessage = await PostMessage.find()
-        response.status(200).json(postMessage)
-        
+        const totalPosts = await PostMessage.countDocuments()
+
+        try {            
+            const postMessage = await PostMessage.find().skip(page || 0).limit(10)
+            response.status(200).json({posts: postMessage, total: totalPosts})
+            
+        } catch (error) {
+            response.status(404).json({message: error.message})
+        }
     } catch (error) {
         response.status(404).json({message: error.message})
     }
+
+    
 }
 
 export const createPost = async (request, response) => {

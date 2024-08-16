@@ -8,6 +8,10 @@ export default  createBrowserRouter([
         element: <Home/>
     },
     {
+        path: '/page/:page',
+        element: <Home/>
+    },
+    {
         path: '/edit/:id',
         element: <Home/>
     },

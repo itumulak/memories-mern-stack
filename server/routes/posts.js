@@ -10,7 +10,7 @@ import authMiddleware from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/', getPostsController)
+router.get('/:page', getPostsController)
 router.post('/', authMiddleware, createPostController)
 router.patch('/:id', authMiddleware, updatePostController)
 router.delete('/:id', authMiddleware, deletePostController)
