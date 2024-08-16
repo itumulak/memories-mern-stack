@@ -74,9 +74,9 @@ export const likePost = async (request, response) => {
             post.likeCount++
         }
         else {
-            post.likes.filter(id => id !== String(request.userId))
+            post.likes = post.likes.filter(id => id !== String(request.userId))
             post.likeCount--
-        }      
+        }
 
         const updatePost = await PostMessage.findByIdAndUpdate(_id, {...post}, {new: true})        
         response.status(201).json(updatePost)

@@ -21,12 +21,16 @@ export default ({post, onDelete}) => {
     
     useEffect(() => {
         if ( likes.includes(userId) ) {            
-            setCanLike(!canLike)          
+            setCanLike(!canLike)
         }
-    }, [post, userId])
+    }, [])
 
     const handleLikePost = () => {
-        dispatch(likePostApi(id))
+        dispatch(likePostApi(id)).then(response => {
+            if (!response.error) {
+                setCanLike(!canLike)
+            }
+        })
     }
 
     return (
