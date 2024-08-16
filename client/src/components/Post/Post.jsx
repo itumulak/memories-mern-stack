@@ -12,7 +12,7 @@ import { formatDate } from "../../util";
 import { useEffect, useState } from "react";
 
 export default ({post, onDelete}) => {
-    const {_id: id, title, name, createdAt, selectedFile, tags, message, likes, likeCount} = post;
+    const {_id: id, creator, title, name, createdAt, selectedFile, tags, message, likes, likeCount} = post;
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLogin = useSelector(state => state.auth.isLogin)  
@@ -37,7 +37,7 @@ export default ({post, onDelete}) => {
         <Card key={post._id} className="flex flex-col justify-between rounded-2xl h-full relative">
             <CardMedia className="h-48 pt-16 bg-blend-darken" image={selectedFile} title={title}>
                 <div className="absolute top-5 right-1">
-                    {isLogin && 
+                    {isLogin && userId === creator &&
                         <Button className="text-white" size="small" onClick={() => navigate(`/edit/${id}`)}>
                             <Paper className="p-1">
                                 <EditIcon fontSize="small" style={{color: 'black'}} className="text-white"/>    
@@ -60,13 +60,15 @@ export default ({post, onDelete}) => {
                 <Typography className="flex items-center gap-2" variant="body2"><ThumbUpIcon color="info" fontSize="small"/> {likeCount}</Typography>
             </CardContent>
             <CardActions className="flex justify-between pt-0 pb-2 px-4">
-                <Button disabled={!isLogin} variant="contained" className="flex flex-row items-center gap-x-1" size="small" color="primary" onClick={isLogin && handleLikePost}>
-                    {canLike ? 
-                        <><ThumbUpAltIcon fontSize="small"/> Like</> : 
-                        <><ThumbDownIcon fontSize="small"/> Unlike</>
-                    }
-                </Button>
                 {isLogin &&
+                    <Button disabled={!isLogin} variant="contained" className="flex flex-row items-center gap-x-1" size="small" color="primary" onClick={isLogin && handleLikePost}>
+                        {canLike ? 
+                            <><ThumbUpAltIcon fontSize="small"/> Like</> : 
+                            <><ThumbDownIcon fontSize="small"/> Unlike</>
+                        }
+                    </Button>
+                }
+                {isLogin && userId === creator &&
                     <Button size="small" color="primary" onClick={(event) => onDelete(event, id)}>
                         <DeleteIcon fontSize="small"/>
                     </Button>

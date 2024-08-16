@@ -14,13 +14,14 @@ export default () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const name = localStorage.getItem('loginName')
+    const userId = useSelector(state => state.auth.id)
     const post = useSelector(state => id ? state.posts.items.find(post => post._id === id) : null)
     const [postData, setPostData] = useState({
         title: '',
         message: '',
         tags: [],
         selectedFile: ''
-    });
+    });    
 
     useEffect(() => {        
         if ( id && post ) {            
@@ -48,11 +49,11 @@ export default () => {
         e.preventDefault()
 
         if ( id ) {
-            dispatch(updatePostApi({...postData, name, id}))         
+            dispatch(updatePostApi({...postData, creator: userId, name, id}))         
             navigate('/')
         }
         else {
-            dispatch(createPostApi({...postData, name}))
+            dispatch(createPostApi({...postData, creator: userId, name}))
             navigate('/')
         }
 
