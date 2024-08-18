@@ -1,5 +1,12 @@
 export const formatDate = (dateString) => {
+    // Parse the date
     const date = new Date(dateString);
+    
+    // Check if the date is valid
+    if (isNaN(date.getTime())) {
+        return "Invalid date";
+    }
+
     const now = new Date();
     const diffInTime = now.getTime() - date.getTime();
     const diffInHours = diffInTime / (1000 * 3600);
