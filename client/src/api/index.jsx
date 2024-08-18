@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const FETCH = 'posts/fetch'
+const FETCH_POSTS = 'posts/fetch'
 const FETCH_BY_SEARCH = 'posts/fetchBySearch'
 const ADD = 'post/add'
+const GET = 'post/get'
 const UPDATE = 'post/update'
 const DELETE = 'post/delete'
 const LIKE = 'post/like'
@@ -23,11 +24,11 @@ API.interceptors.request.use((request) => {
     return request
 })
 
-export const fetchPostsApi = createAsyncThunk(FETCH, async (page, thunkAPI) => {
+export const fetchPostsApi = createAsyncThunk(FETCH_POSTS, async (page, thunkAPI) => {
     const currentPage = page || 0
 
     try {
-        const response  = await API.get(`/posts/${currentPage}`)
+        const response  = await API.get(`/posts/page/${currentPage}`)
         const { posts, total } = response.data
 
         return {posts, total}
@@ -37,8 +38,6 @@ export const fetchPostsApi = createAsyncThunk(FETCH, async (page, thunkAPI) => {
 })
 
 export const fetchPostsBySearchApi = createAsyncThunk(FETCH_BY_SEARCH, async (keyword, thunkAPI) => {
-    console.log(keyword);
-    
     try {
         const response = await API.get(`/posts/search/?s=${keyword}`)
         const { posts, total } = response.data
@@ -52,6 +51,17 @@ export const fetchPostsBySearchApi = createAsyncThunk(FETCH_BY_SEARCH, async (ke
 export const createPostApi = createAsyncThunk(ADD, async (newPost, thunkAPI) => {
     try {        
         const response = await API.post('/posts', newPost)
+        response.headers.toJSON()
+
+        return response.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue({error})
+    }
+})
+
+export const fetchPostApi = createAsyncThunk(GET, async (postId, thunkAPI) => {
+    try {
+        const response = await API.get(`/posts/${postId}`)
         response.headers.toJSON()
 
         return response.data
