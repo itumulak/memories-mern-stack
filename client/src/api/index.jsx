@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const FETCH = 'posts/fetch'
+const FETCH_BY_SEARCH = 'posts/fetchBySearch'
 const ADD = 'post/add'
 const UPDATE = 'post/update'
 const DELETE = 'post/delete'
@@ -32,6 +33,19 @@ export const fetchPostsApi = createAsyncThunk(FETCH, async (page, thunkAPI) => {
         return {posts, total}
     } catch (error) {
         return thunkAPI.rejectWithValue({error})
+    }
+})
+
+export const fetchPostsBySearchApi = createAsyncThunk(FETCH_BY_SEARCH, async (keyword, thunkAPI) => {
+    console.log(keyword);
+    
+    try {
+        const response = await API.get(`/posts/search/?s=${keyword}`)
+        const { posts, total } = response.data
+
+        return { posts, total }
+    } catch (error) {
+        return thunkAPI.rejectWithValue({error})        
     }
 })
 

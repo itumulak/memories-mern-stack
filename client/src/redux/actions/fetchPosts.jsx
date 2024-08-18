@@ -1,5 +1,4 @@
 import { fetchPostsApi } from '../../api';
-import { logout } from '../slices/authSlice';
 
 export default (builder) => {
     builder

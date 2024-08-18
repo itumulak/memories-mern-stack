@@ -45,7 +45,7 @@ export default ({posts, totalPosts}) => {
                             </Grid>
                         }
                     </Grid> :
-                    <Paper>You have no memories.</Paper>
+                    <Paper className="p-4">No results.</Paper>
             }
             {createPortal(
                 <Dialog open={isOpenDeleteDialog} onClose={handleCloseDialog} aria-labelledby="confirm-delete-title" aria-describedby="confirm-delete-description">

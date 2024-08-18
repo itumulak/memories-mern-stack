@@ -4,6 +4,7 @@ import createPost from "../actions/createPost";
 import updatePost from "../actions/updatePost";
 import deletePost from "../actions/deletePost";
 import likePost from "../actions/likePost";
+import fetchPostsBySearch from "../actions/fetchPostsBySearch";
 
 const postsSlice = createSlice({
     name: 'posts',
@@ -11,6 +12,7 @@ const postsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         fetchPosts(builder)
+        fetchPostsBySearch(builder)
         createPost(builder)
         updatePost(builder)
         deletePost(builder)

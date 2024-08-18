@@ -1,15 +1,17 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { Grow, Container, Grid } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 
-import { fetchPostsApi } from "../../api";
+import { fetchPostsApi, fetchPostsBySearchApi } from "../../api";
 import Form from '../../components/Form/Form'
 import Posts from '../../components/Posts/Posts'
 import NavBar from '../../components/NavBar/NavBar';
+import { useQuery } from '../../util';
 
 export default () => {
+    const location = useLocation()
     const dispatch = useDispatch()
     const posts = useSelector(state => state.posts.items)
     const totalPosts = useSelector(state => state.posts.total)
@@ -17,10 +19,17 @@ export default () => {
     const { page } = useParams()
 
     useEffect(() => {
-        let currentPage = page - 1
+        const query = useQuery(location)        
 
-        dispatch(fetchPostsApi(currentPage))
-    }, [dispatch, page])
+        if ( query.get('s') ) {
+            dispatch(fetchPostsBySearchApi(query.get('s')))
+        } else {
+            let currentPage = page - 1
+
+            dispatch(fetchPostsApi(currentPage))
+        }
+        
+    }, [dispatch, page, location])
 
     return (
         <>

@@ -17,8 +17,20 @@ export const getPosts = async (request, response) => {
     } catch (error) {
         response.status(404).json({message: error.message})
     }
+}
 
-    
+export const getPostsBySearch = async (req, res) => {
+    try {
+        const keyword = new RegExp(req.query.s, 'i')
+        const query = { $or: [ { title: keyword } ]}
+
+        const total = await PostMessage.countDocuments( query )
+        const posts = await PostMessage.find( query )
+
+        res.status(200).json( { posts, total } )
+    } catch (error) {
+        res.status(404).json( { message: error.message } )
+    }
 }
 
 export const createPost = async (request, response) => {

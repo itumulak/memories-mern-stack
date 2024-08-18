@@ -26,3 +26,5 @@ export const handleObjectDataChange = (val, type, object) => {
 
     return {...object, ...newObj}
 }
+
+export const useQuery = (url) => new URLSearchParams(url.search)
