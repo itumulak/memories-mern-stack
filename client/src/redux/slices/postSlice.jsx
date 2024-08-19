@@ -8,6 +8,7 @@ const postSlice = createSlice({
         tags: [], 
         description: '', 
         author: '', 
+        authorId: '',
         image: '', 
         createdAt: '', 
         likeCount: 0
@@ -15,9 +16,9 @@ const postSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchPostApi.fulfilled, (state, action) => {
-            const { title, tags, message: description, name: author, selectedFile: image, createdAt, likeCount } = action.payload
+            const { creator: authorId, title, tags, message: description, name: author, selectedFile: image, createdAt, likeCount } = action.payload
 
-            return {...state, title, tags, description, author, image, createdAt, likeCount}
+            return {...state, title, tags, description, author, authorId, image, createdAt, likeCount}
         })
     }
 })

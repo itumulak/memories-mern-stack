@@ -31,11 +31,11 @@ export const DivParent = styled.div`
     @media screen and (min-width: 768px) {
         grid-template-columns: repeat(2, 1fr);
         grid-template-areas: 
-            "title image"
-            "tags image"
-            "description image"
-            "meta image"
-            "actions image";
+            "image title"
+            "image tags"
+            "image description"
+            "image meta"
+            "image actions";
     }
 `
 

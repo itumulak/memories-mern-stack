@@ -23,7 +23,7 @@ export default  createBrowserRouter([
     },
     {
         path: '/:id/edit',
-        element: <Edit/>  
+        element: <View/>  
     },
     {
         path: '/auth',

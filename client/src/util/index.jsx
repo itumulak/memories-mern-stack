@@ -35,3 +35,13 @@ export const handleObjectDataChange = (val, type, object) => {
 }
 
 export const useQuery = (url) => new URLSearchParams(url.search)
+
+export const getBase64 = async (file) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+
+    return new Promise((resolve, reject) => {
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = (error) => reject(error)
+    })
+}
