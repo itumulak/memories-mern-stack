@@ -5,53 +5,51 @@ import { Button, ButtonBase, ButtonGroup, Grow, Paper, Skeleton, TextField, Typo
 import CancelIcon from '@mui/icons-material/Cancel';
 
 import NavBar from "../../components/NavBar/NavBar"
-import { fetchPostApi } from "../../api";
+import { fetchPostApi, updatePostApi } from "../../api";
 import { DivParent } from './styles';
 import { formatDate, getBase64, handleObjectDataChange } from "../../util";
 import TagInput from "../../components/TagInput/TagInput";
 import Dropzone from '../../components/Dropzone/Dropzone';
 
 export default () => {
-    const navigate = useNavigate()
-    const location = useLocation()
     const [isLoading, setIsLoading] = useState(true)
     const [editMode, setEditMode] = useState(false)
+    const [postData, setPostData] = useState({})
+    const [submitting, setSubmitting] = useState(false)
+    const navigate = useNavigate()
     const dispatch = useDispatch()
+    const location = useLocation()
     const { id } = useParams()
     const userId = useSelector(state => state.auth.id)
     const isLogin = useSelector(state => state.auth.isLogin)
     const post = useSelector(state => state.post)
-    const [postData, setPostData] = useState({})
 
-    useEffect(() => {
-        if ( id ) {
-            dispatch(fetchPostApi(id)).then(response => {
-                if ( !response.error ) {
-                    setIsLoading(!isLoading)
-                    setPostData(post);
-                }
-            })
-        }
-
-    }, [dispatch])
-
-    useEffect(() => {
-        if ( location.pathname.includes('/edit')  ) {
-            if ( isLogin ) {
-                setEditMode(true)
-                setPostData(post)
-            }
-            else {
-                navigate(`/${id}`)
-            }
-        }
-        else {
-            setEditMode(false)
+    const handleDrop = useCallback((acceptedFiles) => {
+        const image = getBase64(acceptedFiles[0])
+        image.then(value => {
             setPostData(prevData => {
-                return {...prevData, ...post}
+                return {...prevData, image: value}
             })
-        }
-    }, [location])
+        })
+    })
+
+    useEffect(() => {
+        setIsLoading(true)
+        dispatch(fetchPostApi(id)).then(response => {
+            if ( !response.error ) {
+                setIsLoading(false)
+                setPostData(post)
+
+                if ( location.pathname.includes('/edit')  ) {
+                    setEditMode(true)
+                }
+                else {
+                    setEditMode(false)
+                }
+            }
+        })
+        
+    }, [dispatch, isLogin, location])
 
     const handleEdit = () => {
         setEditMode(true)
@@ -86,14 +84,24 @@ export default () => {
         setPostData(prevData => handleObjectDataChange(val, type, prevData))
     }
 
-    const handleDrop = useCallback((acceptedFiles) => {
-        const image = getBase64(acceptedFiles[0])
-        image.then(value => {
-            setPostData(prevData => {
-                return {...prevData, image: value}
-            })
+    const handleUpdate = () => {
+        setSubmitting(true)
+        dispatch(updatePostApi({
+            ...post, 
+            id,
+            title: postData.title, 
+            tags: postData.tags,
+            creator: userId, 
+            name: post.author,
+            message: postData.description,
+            selectedFile: postData.image 
+        })).then(response => {
+            if (!response.error) {
+                setSubmitting(false)
+                navigate(`/${id}`)
+            }
         })
-    })
+    }
 
     return (
         <>
@@ -152,7 +160,7 @@ export default () => {
                                             variant="text"
                                         >Edit</ButtonBase> :
                                         <ButtonGroup variant="contained">
-                                            <Button size="small" onClick={() => {}}>Save</Button>
+                                            <Button variant={submitting ? `outlined` : `contained`} disabled={submitting} size="small" onClick={handleUpdate}>{submitting ? `Saving...` : `Save`}</Button>
                                             <Button size="small" color="error" onClick={handleCancelEdit}>
                                                 <CancelIcon/>
                                             </Button>
