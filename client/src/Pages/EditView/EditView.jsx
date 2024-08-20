@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from "react"
+import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Button, ButtonBase, ButtonGroup, Grow, Paper, Skeleton, TextField, Typography } from "@mui/material"
+import { Dialog, DialogContent, DialogContentText, DialogActions, Button, ButtonBase, ButtonGroup, DialogTitle, Grow, Paper, Skeleton, TextField, Typography } from "@mui/material"
 import CancelIcon from '@mui/icons-material/Cancel';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import NavBar from "../../components/NavBar/NavBar"
-import { fetchPostApi, updatePostApi } from "../../api";
+import { deletePostApi, fetchPostApi, updatePostApi } from "../../api";
 import { DivParent } from './styles';
 import { formatDate, getBase64, handleObjectDataChange } from "../../util";
 import TagInput from "../../components/TagInput/TagInput";
@@ -16,6 +18,8 @@ export default () => {
     const [editMode, setEditMode] = useState(false)
     const [postData, setPostData] = useState({})
     const [submitting, setSubmitting] = useState(false)
+    const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false)
+    const [idToDelete, setIdToDelete] = useState('')
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation()
@@ -103,6 +107,27 @@ export default () => {
         })
     }
 
+    const handleDelete = (event, id) => {        
+        event.preventDefault()
+        setIsOpenDeleteDialog(true)
+        setIdToDelete(id)    
+    }
+
+    const handleConfirmDelete = (id) => {
+        dispatch(deletePostApi(id)).then(response => {
+            if ( ! response.error ) {
+                setIdToDelete('')
+                setIsOpenDeleteDialog(false)
+                navigate('/')
+            }
+        })
+        
+    }
+
+    const handleCloseDialog = () => {
+        setIsOpenDeleteDialog(false) 
+    } 
+
     return (
         <>
             <NavBar/>
@@ -149,27 +174,49 @@ export default () => {
                                     <img className="rounded" src={post.image}/>
                             }
                         </div>
-                        <div className="actions-area mr-0 ml-auto">
+                        <div className="actions-area flex justify-between">
                             {isLoading ?
-                                <Skeleton width={50} height={50}/> :
-                                isLogin && userId === post.authorId ?
-                                    !editMode ?
-                                        <ButtonBase 
-                                            className="!py-4 !text-blue-600 !hover:text-blue-800 !visited:text-blue-600"
-                                            onClick={handleEdit}
-                                            variant="text"
-                                        >Edit</ButtonBase> :
-                                        <ButtonGroup variant="contained">
-                                            <Button variant={submitting ? `outlined` : `contained`} disabled={submitting} size="small" onClick={handleUpdate}>{submitting ? `Saving...` : `Save`}</Button>
-                                            <Button size="small" color="error" onClick={handleCancelEdit}>
-                                                <CancelIcon/>
-                                            </Button>
-                                        </ButtonGroup> : ''
+                                Array.from({length: 2}).map(() => <Skeleton width={50} height={50}/>) :
+                                <>
+                                    {isLogin && userId === post.authorId &&
+                                        <ButtonBase onClick={(e) => handleDelete(e, id)}>
+                                            <DeleteIcon color="error"/>
+                                        </ButtonBase>
+                                    }
+                                    {isLogin && userId === post.authorId ?
+                                        !editMode ?
+                                            <ButtonBase 
+                                                className="!py-4 !text-blue-600 !hover:text-blue-800 !visited:text-blue-600"
+                                                onClick={handleEdit}
+                                                variant="text"
+                                            >Edit</ButtonBase> :
+                                            <ButtonGroup variant="contained">
+                                                <Button variant={submitting ? `outlined` : `contained`} disabled={submitting} size="small" onClick={handleUpdate}>{submitting ? `Saving...` : `Save`}</Button>
+                                                <Button size="small" color="error" onClick={handleCancelEdit}>
+                                                    <CancelIcon/>
+                                                </Button>
+                                            </ButtonGroup> : ''}
+                                </>
                             }
                         </div>
                     </DivParent>
                 </Paper>
             </Grow>
+            {createPortal(
+                <Dialog open={isOpenDeleteDialog} onClose={handleCloseDialog} aria-labelledby="confirm-delete-title" aria-describedby="confirm-delete-description">
+                    <DialogTitle id="confirm-delete-title">Confirm Delete</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="confirm-delete-description">
+                            Are you sure you want to delete this memory?
+                        </DialogContentText>
+                        <DialogActions>
+                            <Button onClick={() => handleConfirmDelete(idToDelete)}>Confirm</Button>
+                            <Button onClick={() => handleCloseDialog()}>Cancel</Button>
+                        </DialogActions>
+                    </DialogContent>
+                </Dialog>,
+                document.getElementById('dialog')
+            )}
         </>
     )
 }

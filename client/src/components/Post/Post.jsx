@@ -1,19 +1,17 @@
 
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardActions, CardMedia, Button, Typography, CardContent, Paper, Fab, Avatar, ButtonBase } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from '@mui/icons-material/Edit';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { likePostApi } from "../../api";
 import { formatDate } from "../../util";
-import { useEffect, useState } from "react";
 
 export default ({post, onDelete}) => {
     const {_id: id, creator, title, name, createdAt, selectedFile, tags, message, likes, likeCount} = post;
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLogin = useSelector(state => state.auth.isLogin)  
     const userId = useSelector(state => state.auth.id)
@@ -36,17 +34,7 @@ export default ({post, onDelete}) => {
     return (
         <Link to={`/${id}`}>    
             <Card key={post._id} className="flex flex-col justify-between rounded-2xl h-full relative">
-                <CardMedia className="h-48 pt-16 bg-blend-darken" image={selectedFile} title={title}>
-                    <div className="absolute top-5 right-1">
-                        {isLogin && userId === creator &&
-                            <Button className="text-white" size="small" onClick={() => navigate(`/edit/${id}`)}>
-                                <Paper className="p-1">
-                                    <EditIcon fontSize="small" style={{color: 'black'}} className="text-white"/>    
-                                </Paper>
-                            </Button>
-                        }                    
-                    </div>
-                </CardMedia>
+                <CardMedia className="h-48 pt-16 bg-blend-darken" image={selectedFile} title={title}/>
                 <div className="pt-6 px-4">
                     <Typography variant="h5" gutterBottom>{title}</Typography>
                     <div className="flex flex-row gap-x-1 items-center">

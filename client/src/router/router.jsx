@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Auth from "../Pages/Auth/Auth";
 import Home from "../Pages/Home/Home";
-import View from "../Pages/View/View";
+import EditView from "../Pages/EditView/EditView";
 import Edit from "../Pages/Edit/Edit";
 
 export default  createBrowserRouter([
@@ -19,11 +19,11 @@ export default  createBrowserRouter([
     },
     {
         path: '/:id',
-        element: <View/>  
+        element: <EditView/>  
     },
     {
         path: '/:id/edit',
-        element: <View/>  
+        element: <EditView/>  
     },
     {
         path: '/auth',
