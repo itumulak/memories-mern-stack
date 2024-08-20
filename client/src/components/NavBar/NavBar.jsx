@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate  } from 'react-router-dom';
-import { AppBar, Button, Divider, Grow, IconButton, InputBase, Paper, Typography } from "@mui/material";
+import { AppBar, Button, Grow, IconButton, InputBase, Paper, Typography } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 
 import SearchIcon from '@mui/icons-material/Search';
 import memoriesImg from "../../assets/images/memories.png"
+import memoryaSVG from '../../assets/images/Memorya.svg';
 import { logout } from '../../redux/slices/authSlice';
-import { fetchPostsBySearchApi } from '../../api';
 
 export default () => {
     const [userName, setUserName] = useState('')
@@ -43,8 +43,9 @@ export default () => {
         <Grow in>
             <AppBar className="rounded-xl mt-8 mx-0 py-4 flex !flex-row items-center justify-between text-center h-full px-6"  position="static" color="inherit">
                 <div className="flex flex-row items-center">
-                    <img className="ml-4 w-16 h-full" src={memoriesImg} alt="memories"/>
-                    <Typography component={Link} to="/" className="text-cyan-400" variant="h3" align="center">Memories</Typography>
+                    <Typography component={Link} to="/" className="text-cyan-400" variant="h3" align="center">
+                        <img className="ml-4 w-16 h-full" src={memoriesImg} alt="memories"/>
+                    </Typography>
                 </div>
                 <div className="flex flex-row gap-x-2">
                     {showSearchBar &&
