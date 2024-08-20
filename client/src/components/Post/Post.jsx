@@ -32,8 +32,8 @@ export default ({post, onDelete}) => {
     }
 
     return (
-        <Link to={`/${id}`}>    
-            <Card key={post._id} className="flex flex-col justify-between rounded-2xl h-full relative">
+        <ButtonBase className="w-full h-full" to={`/${id}`}>    
+            <Card key={post._id} className="w-full flex flex-col justify-between rounded-2xl h-full relative">
                 <CardMedia className="h-48 pt-16 bg-blend-darken" image={selectedFile} title={title}/>
                 <div className="pt-6 px-4">
                     <Typography variant="h5" gutterBottom>{title}</Typography>
@@ -63,6 +63,6 @@ export default ({post, onDelete}) => {
                     }
                 </CardActions>
             </Card>
-        </Link>
+        </ButtonBase>
     )
 }

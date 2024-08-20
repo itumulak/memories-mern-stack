@@ -114,14 +114,13 @@ export default () => {
     }
 
     const handleConfirmDelete = (id) => {
+        setIsOpenDeleteDialog(false)
         dispatch(deletePostApi(id)).then(response => {
             if ( ! response.error ) {
                 setIdToDelete('')
-                setIsOpenDeleteDialog(false)
                 navigate('/')
             }
         })
-        
     }
 
     const handleCloseDialog = () => {

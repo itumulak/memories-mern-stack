@@ -53,8 +53,11 @@ export default () => {
             navigate('/')
         }
         else {
-            dispatch(createPostApi({...postData, creator: userId, name}))
-            navigate('/')
+            dispatch(createPostApi({...postData, creator: userId, name})).then(respone => {
+                if (!respone.error) {
+                    navigate('/')
+                }
+            })
         }
 
         clearData()
