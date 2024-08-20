@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SearchIcon from '@mui/icons-material/Search';
 import memoriesImg from "../../assets/images/memories.png"
-import memoryaSVG from '../../assets/images/Memorya.svg';
 import { logout } from '../../redux/slices/authSlice';
 
 export default () => {
