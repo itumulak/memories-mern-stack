@@ -46,14 +46,14 @@ export const createPost = async (request, response) => {
 }
 
 export const getPost = async (request, response) => {
-    const { id: _id } = request.params;     
-    
+    const { id: _id } = request.params;
+
     try {
         if (!mongoose.Types.ObjectId.isValid(_id)) {
             return response.status(404).send('No post with that id')
         }
 
-        const post = await PostMessage.findById(_id)
+        const post = await PostMessage.findById(_id)        
         response.status(201).json(post)
     } catch (error) {        
         response.status(404).json({message: error})
