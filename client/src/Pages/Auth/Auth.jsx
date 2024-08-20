@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Container, Avatar, Typography, Paper, Stack, Grid, Grow } from "@mui/material";
+import { Button, Container, Avatar, Typography, Paper, Stack, Grid, Grow, Alert, Fade } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from "react-router-dom";
+import { styled } from "styled-components";
 
 import { handleObjectDataChange } from "../../util";
 import { createUser, signIn } from "../../api";
@@ -12,6 +13,7 @@ import NavBar from "../../components/NavBar/NavBar";
 export default () => {
     const [isSignUp, setIsSignUp] = useState(false)
     const [userInput, setUserInput] = useState({firstName: '', lastName: '', email: '', password: '', confirmPassword: ''})
+    const [error, setError] = useState('')
     const dispatch = useDispatch()
     const userData = useSelector(state => state.auth)
     const navigate = useNavigate()
@@ -31,7 +33,16 @@ export default () => {
             dispatch(createUser(userInput))
         }
         else {
-            dispatch(signIn(userInput))
+            dispatch(signIn(userInput)).then(response => {
+                if ( response.error ) {                    
+                    const { status, data } = response.payload.error.response
+                    
+                    if ( status === 400 ) {
+                        setError(data.message)
+
+                    }
+                }
+            })
         }
     }
 
@@ -59,6 +70,11 @@ export default () => {
                                     <Typography variant="h5">{isSignUp ? `Sign Up` : `Sign In`}</Typography>
                                 </Container>
                                 <form className="flex gap-6 flex-col" onSubmit={(e) => handleSubmit(e)}>
+                                    {error.length > 0 &&
+                                    <Grow in>
+                                        <Alert severity="error">{error}</Alert>
+                                    </Grow>
+                                    }
                                     {isSignUp && 
                                     <Stack direction="row" spacing={3}>
                                         <Input 

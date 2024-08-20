@@ -33,3 +33,15 @@ body {
   width: 100%;
   height: 100%;
 }
+
+/* For the text input background */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: black !important;
+}
+
+/* If you need to style the border as well */
+input:-webkit-autofill {
+  border: 1px solid #ced4da !important;
+}
