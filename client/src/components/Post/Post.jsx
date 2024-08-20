@@ -32,7 +32,7 @@ export default ({post, onDelete}) => {
     }
 
     return (
-        <ButtonBase className="w-full h-full" to={`/${id}`}>    
+        <ButtonBase className="w-full h-full" LinkComponent={Link} to={`/${id}`}>    
             <Card key={post._id} className="w-full flex flex-col justify-between rounded-2xl h-full relative">
                 <CardMedia className="h-48 pt-16 bg-blend-darken" image={selectedFile} title={title}/>
                 <div className="pt-6 px-4">
