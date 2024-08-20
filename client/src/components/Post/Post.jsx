@@ -51,17 +51,20 @@ export default ({post, onDelete}) => {
                     </CardContent>
                 </ButtonBase>
                 <CardActions className="flex justify-between pt-0 pb-2 px-4">
+                    <div className="flex gap-x-2">
+
                     {isLogin &&
-                        <div className="flex gap-x-2">
-                            <Button disabled={liking} variant={liking ? 'outlined' : 'contained'} className="flex flex-row items-center gap-x-1" size="small" color="primary" onClick={isLogin && handleLikePost}>
-                                {canLike ? 
-                                    liking ? <><CircularProgress size="14px"/> Liking</> : <><ThumbUpAltIcon fontSize="small"/> Like</> : 
-                                    liking ? <><CircularProgress size="14px"/> Unliking</> : <><ThumbDownIcon fontSize="small"/> Unlike</>
-                                }
-                            </Button>
-                            <Typography className="flex items-center gap-2" variant="body2">{likeCount  > 0 ? `${likeCount} liked it.` : ''} </Typography>
-                        </div>
+                        <Button disabled={liking} variant={liking ? 'outlined' : 'contained'} className="flex flex-row items-center gap-x-1" size="small" color="primary" onClick={isLogin && handleLikePost}>
+                            {canLike ? 
+                                liking ? <><CircularProgress size="14px"/> Liking</> : <><ThumbUpAltIcon fontSize="small"/></> : 
+                                liking ? <><CircularProgress size="14px"/> Unliking</> : <><ThumbDownIcon fontSize="small"/></>
+                            }
+                        </Button>
                     }
+                        <Typography className="flex items-center gap-2" variant="body2">{likeCount  > 0 ? `${likeCount} likes` : ''} </Typography>
+
+                    </div>
+
                     {isLogin && userId === creator &&
                         <ButtonBase size="small" color="primary" onClick={(event) => onDelete(event, id)}>
                             <DeleteIcon fontSize="small" color="error" />
