@@ -12,7 +12,7 @@ const CREATE_USER = 'user/create'
 const UPDATE_USER = 'user/update'
 const SIGNIN_USER = 'user/signin'
 const VALIDATE_USER = 'user/validate'
-const API = axios.create({baseURL: 'https://memories-mern-stack-server.vercel.app'})
+const API = axios.create({baseURL: import.meta.env.VITE_SERVER_URL})
 
 API.interceptors.request.use((request) => {
     const token = localStorage.getItem('loginToken')
