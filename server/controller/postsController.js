@@ -104,25 +104,20 @@ export const likePost = async (request, response) => {
         }
 
         const post = await PostMessage.findById(_id)
-        const likers = post.likes
-        let likeCount = post.likeCount
         const index = post.likes.findIndex(id => id === String(request.userId))
         
         if ( index === -1 ) {
-            likers.push(request.userId)
-            likeCount++ 
+            post.likes.push(request.userId)
+            post.likeCount++ 
         }
         else {
-            likers.filter(id => id !== String(request.userId))
-            likeCount--
-        }       
+            post.likes = post.likes.filter(id => id !== String(request.userId))
+            post.likeCount--
+        } 
 
-        const updatedPost = {...post, likes: likers, likeCount}
-        const updated = await PostMessage.findByIdAndUpdate(_id, updatedPost, {new: true})   
+        const updated = await PostMessage.findByIdAndUpdate(_id, post, {new: true})   
+        response.status(201).json(updated)
 
-        if (updated) {
-            response.status(201).json(updated)
-        }
     } catch (error) {
         response.status(500).json({message: error.message})
     }

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardActions, CardMedia, Button, Typography, CardContent, ButtonBase, CircularProgress } from "@mui/material";
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { likePostApi } from "../../api";
@@ -55,12 +56,12 @@ export default ({post, onDelete}) => {
                         <Button 
                             disabled={isLogin ? false : true} 
                             variant={!isLike ? 'outlined' : 'contained'} 
-                            className={`flex flex-row items-center gap-x-1 ${!isLogin ? `!border-neutral-200` : ''}`} 
+                            className={`flex flex-row items-center gap-x-1 ${!isLogin ? `!border-neutral-200 !bg-stone-300` : ''}`} 
                             size="small" 
                             color="primary" 
                             onClick={() => isLogin && handleLikePost(id)}
                         >
-                            {updatingLike ? <CircularProgress size="14px"/> : <><ThumbUpOffAltIcon color="primary" fontSize="small"/> {likeCount}</>}
+                            {updatingLike ? <CircularProgress size="14px"/> : <>{isLike ? <ThumbUpIcon fontSize="small"/> : <ThumbUpOffAltIcon fontSize="small"/>} {likeCount}</>}
                         </Button>
                     </div>
 
