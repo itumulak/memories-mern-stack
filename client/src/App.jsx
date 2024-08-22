@@ -17,7 +17,7 @@ function App() {
     }, [dispatch])
 
     return (
-        <Container maxWidth="lg" className="!flex flex-col gap-y-10">
+        <Container maxWidth="lg" className="!flex flex-col gap-y-10 py-12">
             <RouterProvider router={router} />
         </Container>
     )
