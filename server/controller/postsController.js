@@ -92,7 +92,7 @@ export const deletePost = async (request, response) => {
 }
 
 export const likePost = async (request, response) => {
-    const { id: _id } = request.params
+    const { id: _id } = request.params    
 
     try {
         if ( ! request.userId ) {
@@ -104,19 +104,28 @@ export const likePost = async (request, response) => {
         }
 
         const post = await PostMessage.findById(_id)
+        const likers = post.likes
+        let likeCount = post.likeCount
         const index = post.likes.findIndex(id => id === String(request.userId))
 
+        console.log(index);
+        
+        
         if ( index === -1 ) {
-            post.likes.push(request.userId)
-            post.likeCount++
+            likers.push(request.userId)
+            likeCount++ 
         }
         else {
-            post.likes = post.likes.filter(id => id !== String(request.userId))
-            post.likeCount--
-        }
+            likers.filter(id => id !== String(request.userId))
+            likeCount--
+        }       
 
-        const updatePost = await PostMessage.findByIdAndUpdate(_id, {...post}, {new: true})        
-        response.status(201).json(updatePost)
+        const updatedPost = {...post, likes: likers, likeCount}
+        const updated = await PostMessage.findByIdAndUpdate(_id, updatedPost, {new: true})   
+
+        if (updated) {
+            response.status(201).json(updated)
+        }
     } catch (error) {
         response.status(500).json({message: error.message})
     }
