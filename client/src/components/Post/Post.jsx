@@ -2,10 +2,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, CardActions, CardMedia, Button, Typography, CardContent, Paper, Fab, Avatar, ButtonBase, CircularProgress } from "@mui/material";
-import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import { Card, CardActions, CardMedia, Button, Typography, CardContent, ButtonBase, CircularProgress } from "@mui/material";
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import DeleteIcon from "@mui/icons-material/Delete";
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+
 import { likePostApi } from "../../api";
 import { formatDate } from "../../util";
 
@@ -14,22 +14,22 @@ export default ({post, onDelete}) => {
     const dispatch = useDispatch();
     const isLogin = useSelector(state => state.auth.isLogin)  
     const userId = useSelector(state => state.auth.id)
-    const [canLike, setCanLike] = useState(true)
-    const [liking, setLiking] = useState(false)
+    const [updatingLike, setUpdatingLike] = useState(false)
+    const [isLike, setIsLike] = useState(false)
     
     useEffect(() => {
-        if ( likes.includes(userId) ) {            
-            setCanLike(!canLike)
-        }
+        if ( likes.includes(userId) ) {
+            setIsLike(true)
+        }        
     }, [])
 
-    const handleLikePost = () => {
-        setLiking(true)
+    const handleLikePost = (id) => {
+        setUpdatingLike(true)
 
         dispatch(likePostApi(id)).then(response => {
             if (!response.error) {
-                setCanLike(!canLike)
-                setLiking(false)
+                setIsLike(!isLike)
+                setUpdatingLike(false)
             }
         })
     }
@@ -52,17 +52,16 @@ export default ({post, onDelete}) => {
                 </ButtonBase>
                 <CardActions className="flex justify-between pt-0 pb-2 px-4">
                     <div className="flex gap-x-2">
-
-                    {isLogin &&
-                        <Button disabled={liking} variant={liking ? 'outlined' : 'contained'} className="flex flex-row items-center gap-x-1" size="small" color="primary" onClick={isLogin && handleLikePost}>
-                            {canLike ? 
-                                liking ? <><CircularProgress size="14px"/> Liking</> : <><ThumbUpAltIcon fontSize="small"/></> : 
-                                liking ? <><CircularProgress size="14px"/> Unliking</> : <><ThumbDownIcon fontSize="small"/></>
-                            }
+                        <Button 
+                            disabled={isLogin ? false : true} 
+                            variant={!isLike ? 'outlined' : 'contained'} 
+                            className={`flex flex-row items-center gap-x-1 ${!isLogin ? `!border-neutral-200` : ''}`} 
+                            size="small" 
+                            color="primary" 
+                            onClick={() => isLogin && handleLikePost(id)}
+                        >
+                            {updatingLike ? <CircularProgress size="14px"/> : <><ThumbUpOffAltIcon color="primary" fontSize="small"/> {likeCount}</>}
                         </Button>
-                    }
-                        <Typography className="flex items-center gap-2" variant="body2">{likeCount  > 0 ? `${likeCount} likes` : ''} </Typography>
-
                     </div>
 
                     {isLogin && userId === creator &&
