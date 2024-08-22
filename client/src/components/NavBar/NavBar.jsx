@@ -22,11 +22,8 @@ export default () => {
     }, [user])
 
     const handleLogout = () => {        
-        dispatch(logout()).then(response => {
-            if (!response.error) {
-                navigate('/')
-            }
-        })
+        dispatch(logout())
+        navigate('/')
     }
 
     const handleSearchBar = (e) => {

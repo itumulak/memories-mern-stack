@@ -35,7 +35,7 @@ export default () => {
         <>
             <NavBar/>
             <Grow in>
-                <Container container>
+                <Container>
                     <Grid minHeight={600} container justifyItems="space-between" alignItems="stretch" spacing={3}>
                     {
                         !isFulfilled ? <div className="m-auto"><CircularProgress/></div> : 

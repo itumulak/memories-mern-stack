@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Container, Avatar, Typography, Paper, Stack, Grid, Grow, Alert, Fade } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from "react-router-dom";
-import { styled } from "styled-components";
 
 import { handleObjectDataChange } from "../../util";
 import { createUser, signIn } from "../../api";
@@ -30,19 +29,26 @@ export default () => {
         e.preventDefault()
         
         if (isSignUp) {
-            dispatch(createUser(userInput))
+            dispatch(createUser(userInput)).then(response => {
+                if ( response.error ) {
+                    handleErrors(response.payload.error.response)                
+                }
+            })
         }
         else {
             dispatch(signIn(userInput)).then(response => {
-                if ( response.error ) {                    
-                    const { status, data } = response.payload.error.response
-                    
-                    if ( status === 400 ) {
-                        setError(data.message)
-
-                    }
+                if ( response.error ) {    
+                    handleErrors(response.payload.error.response)                
                 }
             })
+        }
+    }
+
+    const handleErrors = (response) => {
+        const { status, data } = response
+
+        if ( status === 400 ) {
+            setError(data.message)
         }
     }
 
