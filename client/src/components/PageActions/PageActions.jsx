@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { deletePostApi } from "../../api";
 
-export default ({id, submitting, onUpdate, edit}) => {
+export default ({id, authorId, submitting, onUpdate, edit}) => {
     const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false)
     const [editMode, setEditMode] = useState(edit || false)
     const user = useSelector(state => state.auth)
@@ -45,7 +45,7 @@ export default ({id, submitting, onUpdate, edit}) => {
 
     return (
         <>
-            {user.isLogin && (
+            {user.isLogin && user.id === authorId && (
                 <>
                     <ButtonBase onClick={(e) => handleDelete(e, id)}>
                         <DeleteIcon color="error" />

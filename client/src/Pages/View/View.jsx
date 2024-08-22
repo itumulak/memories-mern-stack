@@ -27,7 +27,7 @@ export default () => {
         setIsLoading(true)
         dispatch(fetchPostApi(id)).then(response => {
             if ( !response.error ) {
-                const { title, tags, createdAt, likeCount, message: description, name: author, selectedFile: image } = response.payload
+                const { title, tags, createdAt, likeCount, message: description, name: author, creator: authorId, selectedFile: image } = response.payload
                 setPostData(prevData => {
                     return {
                         ...prevData,
@@ -37,6 +37,7 @@ export default () => {
                         likeCount,
                         description,
                         author,
+                        authorId,
                         image
                      }
                 })
@@ -101,7 +102,7 @@ export default () => {
 
                             </div>
                             <div className="actions-area h-8 flex justify-between">
-                                <PageActions id={id} submitting={submitting} onUpdate={handleUpdate} edit={false}/>
+                                <PageActions id={id} authorId={post.authorId} submitting={submitting} onUpdate={handleUpdate} edit={false}/>
                             </div>
                         </>
                     }
