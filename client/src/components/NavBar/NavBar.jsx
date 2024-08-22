@@ -41,7 +41,7 @@ export default () => {
         <AppBar className="rounded-xl mx-0 py-4 flex !flex-row gap-x-2 items-center justify-between text-center h-full px-6"  position="static" color="inherit">
             <div className="flex flex-row items-center">
                 <Typography component={Link} to="/" className="text-cyan-400" variant="h3" align="center">
-                    <img className="md:ml-4 w-16 h-full" src={memoriesImg} alt="memories"/>
+                    <img className="w-16 h-full" src={memoriesImg} alt="memories"/>
                 </Typography>
             </div>
             <div className="flex flex-row gap-x-2">
