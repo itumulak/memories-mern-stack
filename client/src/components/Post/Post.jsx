@@ -61,7 +61,7 @@ export default ({post, onDelete}) => {
                             color="primary" 
                             onClick={() => isLogin && handleLikePost(id)}
                         >
-                            {updatingLike ? <CircularProgress size="14px"/> : <>{isLike ? <ThumbUpIcon fontSize="small"/> : <ThumbUpOffAltIcon fontSize="small"/>} {likeCount}</>}
+                            {updatingLike ? <CircularProgress color="warning" size="14px"/> : <>{isLike ? <ThumbUpIcon fontSize="small"/> : <ThumbUpOffAltIcon fontSize="small"/>} {likeCount}</>}
                         </Button>
                     </div>
 
