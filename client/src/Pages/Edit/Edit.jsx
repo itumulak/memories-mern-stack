@@ -9,7 +9,7 @@ import { SkeletonPage } from "../../components/Skeleton/Skeleton";
 import Dropzone from "../../components/Dropzone/Dropzone"
 import { DivParent } from "../View/styles"
 import { fetchPostApi, updatePostApi } from "../../api";
-import { formatDate, handleObjectDataChange } from "../../util";
+import { formatDate, getBase64, handleObjectDataChange } from "../../util";
 import PageActions from "../../components/PageActions/PageActions";
 
 export default () => {
@@ -100,20 +100,20 @@ export default () => {
         <>
             <NavBar/>
             <Paper className="p-8">
-                <DivParent className="gap-y-0 gap-x-12">
+                <DivParent className="gap-y-5 gap-x-12">
                     {isLoading ?
                         <SkeletonPage/> :
                         auth.isLogin ?
                             <>
-                                <TextField className="title-area h-8" fullWidth required onChange={(e) => handleFieldChange(e.target.value, 'title')} value={postData.title} />
+                                <TextField className="title-area" fullWidth required onChange={(e) => handleFieldChange(e.target.value, 'title')} value={postData.title} />
                                 <TagInput
-                                    className="tags-area h-8"
+                                    className="tags-area"
                                     fullWidth 
                                     onDelete={handleTagDelete} 
                                     onKeyDown={handleTagKeyEvent} 
                                     tags={postData.tags} 
                                 />
-                                <TextField className="description-area h-8" fullWidth required onChange={(e) => handleFieldChange(e.target.value, 'description')} value={postData.description} />
+                                <TextField className="description-area" fullWidth required onChange={(e) => handleFieldChange(e.target.value, 'description')} value={postData.description} />
                                 <Typography className="pt-2" variant="caption">{`Created by ${postData.author} - ${formatDate(postData.createdAt)}`}</Typography>
                                 <div className="image-area">
                                     <Dropzone onDrop={handleDrop} file={postData.image}/>
