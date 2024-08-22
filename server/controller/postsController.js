@@ -107,9 +107,6 @@ export const likePost = async (request, response) => {
         const likers = post.likes
         let likeCount = post.likeCount
         const index = post.likes.findIndex(id => id === String(request.userId))
-
-        console.log(index);
-        
         
         if ( index === -1 ) {
             likers.push(request.userId)
