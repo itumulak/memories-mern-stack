@@ -27,7 +27,7 @@ Overall, I am highly satisfied with the outcome and really enjoyed the journey i
 
 ## Demo
 
-[Demo link](https://vercel.com/ian-tumulaks-projects/itumulak-mern-stack)
+[Demo link](https://itumulak-mern-stack.vercel.app/)
 
 
 ## Previewing locally
