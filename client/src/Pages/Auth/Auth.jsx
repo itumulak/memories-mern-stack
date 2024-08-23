@@ -31,6 +31,9 @@ export default () => {
         e.preventDefault()
         
         setSubmitting(true)
+        setError('')
+        setSuccess(false)
+        
         if (isSignUp) {
             dispatch(createUser(userInput)).then(response => {
                 if ( response.error ) {

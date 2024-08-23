@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
-import FileBase64 from "react-file-base64";
 import { TextField, Button, Typography, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import { createPostApi, updatePostApi } from "../../api";
+import { createPostApi } from "../../api";
 import TagInput from "../TagInput/TagInput";
+import { getBase64, loadingDiv } from "../../util";
+import Dropzone from '../../components/Dropzone/Dropzone';
 
 export default () => {
     const isLogin = useSelector(state => state.auth.isLogin)
+    const [submitting, setSubmitting] = useState(false)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
@@ -48,19 +50,15 @@ export default () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if ( id ) {
-            dispatch(updatePostApi({...postData, creator: userId, name, id}))         
-            navigate('/')
-        }
-        else {
-            dispatch(createPostApi({...postData, creator: userId, name})).then(respone => {
-                if (!respone.error) {
-                    navigate('/')
-                }
-            })
-        }
+        setSubmitting(true)
 
-        clearData()
+        dispatch(createPostApi({...postData, creator: userId, name})).then(response => {
+            if ( ! response.error ) {
+                clearData()
+                setSubmitting(false)
+            }
+        })
+
     }
 
     const handleTagDelete = (e, item) => {
@@ -83,6 +81,16 @@ export default () => {
         }
     }
 
+    const handleDrop = (acceptedFiles) => {
+        const image = getBase64(acceptedFiles[0])
+
+        image.then(value => {
+            setPostData(prevData => {
+                return {...prevData, selectedFile: value}
+            })
+        })
+    }
+
     return (
         <Paper>
             {isLogin ? 
@@ -91,10 +99,8 @@ export default () => {
                     <TextField name="title" variant="outlined" label="Title" fullWidth onChange={(event) => handlePostData(event.target.value, 'title')} value={postData.title}/>
                     <TextField name="message" variant="outlined" label="Message" fullWidth onChange={(event) => handlePostData(event.target.value, 'message')} value={postData.message}/>
                     <TagInput tags={postData.tags} onDelete={handleTagDelete} onKeyDown={handleTagKeyEvent}/>
-                    <div>
-                        <FileBase64 type="file" multiple={false} onDone={({base64}) => handlePostData(base64, 'selectedFile')} />
-                    </div>
-                    <Button variant="contained" color="primary" size="large" type="submit">{id ? 'Update' : 'Submit'}</Button>
+                    <Dropzone onDrop={handleDrop} file={postData.selectedFile}/>
+                    <Button disabled={submitting} variant="contained" color="primary" size="large" type="submit">{submitting ? loadingDiv('Submitting') : 'Submit'}</Button>
                     <Button variant="contained" color="secondary" size="small" onClick={clearData}>Clear</Button>
                 </form> : 
                 <div className="flex flex-col gap-y-2 items-center justify-center min-h-96">

@@ -14,7 +14,7 @@ export default ({file = "", onDrop}) => {
     const { getRootProps, getInputProps } = useDropzone({maxFiles: 1, onDrop}) 
     
     return (
-        <DropZone className="rounded hover:cursor-pointer" {...getRootProps()}>
+        <DropZone className="rounded hover:cursor-pointer flex items-center text-center" {...getRootProps()}>
             <input {...getInputProps()} />
             {!file && <div><FileDownloadIcon/> <br /> Upload an image.</div>}
             {file && <img src={file}/>}
