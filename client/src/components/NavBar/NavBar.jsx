@@ -23,7 +23,6 @@ export default () => {
 
     const handleLogout = () => {        
         dispatch(logout())
-        navigate('/')
     }
 
     const handleSearchBar = (e) => {

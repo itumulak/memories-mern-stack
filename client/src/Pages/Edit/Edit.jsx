@@ -119,7 +119,7 @@ export default () => {
                                     <Dropzone onDrop={handleDrop} file={postData.image}/>
                                 </div>
                                 <div className="actions-area h-12 flex justify-between">
-                                    <PageActions id={id} submitting={submitting} onUpdate={handleUpdate} edit={true}/>
+                                    <PageActions id={id} authorId={post.authorId} submitting={submitting} onUpdate={handleUpdate} edit={true}/>
                                 </div>
                             </>
                         : navigate(`/${id}`)

@@ -1,3 +1,5 @@
+import { styled } from "styled-components";
+
 export const formatDate = (dateString) => {
     // Parse the date
     const date = new Date(dateString);
@@ -44,4 +46,26 @@ export const getBase64 = async (file) => {
         reader.onload = () => resolve(reader.result)
         reader.onerror = (error) => reject(error)
     })
+}
+
+export const loadingDiv = (message = 'Loading') => {
+    const StyledLoading = styled.div`
+        display: inline-block;
+        font-family: monospace;
+        font-size: inherit;
+        clip-path: inset(0 3ch 0 0);
+        animation: l 1s steps(4) infinite;
+
+        @keyframes l {
+            to {
+                clip-path: inset(0 -1ch 0 0)
+            }
+        }
+    `
+
+    return (
+        <StyledLoading>
+            {message}...
+        </StyledLoading>
+    )
 }
